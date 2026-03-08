@@ -155,6 +155,35 @@ const Index = () => {
       {/* Featured Slider */}
       <FeaturedSlider products={displayFeatured} />
 
+      {/* Core Features / Philosophy */}
+      <section className="py-32 border-b border-border bg-card/5">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div className="space-y-6">
+              <span className="text-accent text-[10px] tracking-[0.4em] uppercase">01 / Selection</span>
+              <h3 className="font-display text-4xl leading-tight">Curated<br/>Archive</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed uppercase tracking-widest opacity-80">
+                Every piece is individually sourced and verified for authenticity and historical relevance.
+              </p>
+            </div>
+            <div className="space-y-6">
+              <span className="text-accent text-[10px] tracking-[0.4em] uppercase">02 / Sourcing</span>
+              <h3 className="font-display text-4xl leading-tight">Global<br/>Network</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed uppercase tracking-widest opacity-80">
+                We collect from the silent corners of the world, following the trail of forgotten deadstock.
+              </p>
+            </div>
+            <div className="space-y-6">
+              <span className="text-accent text-[10px] tracking-[0.4em] uppercase">03 / Legacy</span>
+              <h3 className="font-display text-4xl leading-tight">Permanent<br/>Archival</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed uppercase tracking-widest opacity-80">
+                Once a piece finds its owner, it is removed from our collection forever. No restocks.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Main Inventory Title */}
       <section className="pt-32 pb-12 bg-background">
         <div className="container mx-auto px-6 lg:px-12">

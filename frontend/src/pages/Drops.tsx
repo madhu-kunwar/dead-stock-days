@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { motion, AnimatePresence } from 'framer-motion';
 import { fetchProducts } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
 import EmailCapture from '@/components/EmailCapture';
@@ -52,80 +53,107 @@ const Drops = () => {
         </div>
       </section>
 
-      {/* Filters */}
-      <section className="py-8 border-b border-border sticky top-20 bg-background/95 backdrop-blur-sm z-30">
+      {/* Filters Section */}
+      <section className="sticky top-20 bg-background/95 backdrop-blur-sm z-30 border-b border-border">
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="flex flex-wrap items-center gap-8">
-            {/* Category Filter */}
-            <div className="flex items-center gap-4">
-              <span className="detail-label">Type</span>
-              <div className="flex flex-wrap gap-2">
-                {collectionTypes.map(type => (
-                  <button
-                    key={type}
-                    onClick={() => setCollectionFilter(type)}
-                    className={`px-3 py-1.5 text-xs tracking-widest uppercase transition-colors ${
-                      collectionFilter === type
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
-                    {type}
-                  </button>
-                ))}
+          {/* Main Category Filter - Horizontal Scroll */}
+          <div className="flex items-center border-b border-border/50">
+            <span className="detail-label mr-8 hidden md:block shrink-0">Type</span>
+            <div className="flex gap-8 overflow-x-auto no-scrollbar py-6">
+              {collectionTypes.map(type => (
+                <button
+                  key={type}
+                  onClick={() => setCollectionFilter(type)}
+                  className={`text-xs tracking-[0.2em] uppercase whitespace-nowrap transition-all duration-300 relative pb-1 ${
+                    collectionFilter === type
+                      ? 'text-foreground'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {type}
+                  {collectionFilter === type && (
+                    <motion.div 
+                      layoutId="activeTab"
+                      className="absolute bottom-0 left-0 right-0 h-px bg-accent"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Secondary Filters Bar */}
+          <div className="flex flex-wrap items-center justify-between py-6 gap-6">
+            <div className="flex flex-wrap items-center gap-12">
+              {/* Era Selection */}
+              <div className="flex items-center gap-4">
+                <span className="detail-label">Era</span>
+                <div className="flex gap-3">
+                  {eras.map(era => (
+                    <button
+                      key={era}
+                      onClick={() => setEraFilter(era)}
+                      className={`text-[10px] tracking-widest uppercase px-3 py-1 border transition-all ${
+                        eraFilter === era
+                          ? 'border-accent text-accent bg-accent/5'
+                          : 'border-border text-muted-foreground hover:border-muted-foreground'
+                      }`}
+                    >
+                      {era}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Style Selection */}
+              <div className="flex items-center gap-4">
+                <span className="detail-label">Style</span>
+                <div className="flex gap-3">
+                  {styles.map(style => (
+                    <button
+                      key={style}
+                      onClick={() => setStyleFilter(style)}
+                      className={`text-[10px] tracking-widest uppercase px-3 py-1 border transition-all ${
+                        styleFilter === style
+                          ? 'border-accent text-accent bg-accent/5'
+                          : 'border-border text-muted-foreground hover:border-muted-foreground'
+                      }`}
+                    >
+                      {style}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Era Filter */}
-            <div className="flex items-center gap-4">
-              <span className="detail-label">Era</span>
-              <div className="flex flex-wrap gap-2">
-                {eras.map(era => (
-                  <button
-                    key={era}
-                    onClick={() => setEraFilter(era)}
-                    className={`px-3 py-1.5 text-xs tracking-widest uppercase transition-colors ${
-                      eraFilter === era
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
-                    {era}
-                  </button>
-                ))}
-              </div>
-            </div>
+            {/* Sold Out Toggle & Clear */}
+            <div className="flex items-center gap-8 ml-auto">
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <div className="relative w-8 h-4 bg-muted border border-border transition-colors group-hover:border-muted-foreground">
+                  <div className={`absolute top-0.5 left-0.5 w-2.5 h-2.5 transition-all duration-300 ${
+                    showSoldOut ? 'translate-x-4 bg-accent' : 'translate-x-0 bg-muted-foreground'
+                  }`} />
+                </div>
+                <input
+                  type="checkbox"
+                  checked={showSoldOut}
+                  onChange={(e) => setShowSoldOut(e.target.checked)}
+                  className="hidden"
+                />
+                <span className="text-[10px] tracking-widest uppercase text-muted-foreground group-hover:text-foreground transition-colors">
+                  Archived Pieces
+                </span>
+              </label>
 
-            {/* Style Filter */}
-            <div className="flex items-center gap-4">
-              <span className="detail-label">Style</span>
-              <div className="flex flex-wrap gap-2">
-                {styles.map(style => (
-                  <button
-                    key={style}
-                    onClick={() => setStyleFilter(style)}
-                    className={`px-3 py-1.5 text-xs tracking-widest uppercase transition-colors ${
-                      styleFilter === style
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
-                    {style}
-                  </button>
-                ))}
-              </div>
+              {(collectionFilter !== 'All' || eraFilter !== 'All' || styleFilter !== 'All') && (
+                <button 
+                  onClick={() => { setCollectionFilter('All'); setEraFilter('All'); setStyleFilter('All'); setShowSoldOut(false); }}
+                  className="text-[10px] tracking-widest uppercase text-accent hover:underline underline-offset-4"
+                >
+                  Reset
+                </button>
+              )}
             </div>
-
-            {/* Show Sold Out Toggle */}
-            <label className="flex items-center gap-2 cursor-pointer ml-auto">
-              <input
-                type="checkbox"
-                checked={showSoldOut}
-                onChange={(e) => setShowSoldOut(e.target.checked)}
-                className="w-4 h-4 accent-accent bg-muted border-border"
-              />
-              <span className="text-xs tracking-wide text-muted-foreground">Show Sold Out</span>
-            </label>
           </div>
         </div>
       </section>

@@ -32,6 +32,41 @@ const ProductCard = ({ product }: ProductCardProps) => {
             )}
           </div>
 
+          {/* Action Buttons */}
+          <div className="absolute top-4 right-4 z-10 flex flex-col gap-2 translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
+            {product.soldOut ? (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleBucketlist(product.id);
+                }}
+                className={`p-2 backdrop-blur-md border border-white/10 transition-colors hover:bg-white/20 ${
+                  isInBucketlist(product.id) ? 'bg-accent/80 text-accent-foreground' : 'bg-black/40 text-white'
+                }`}
+                title="Add to Wishlist"
+              >
+                <BookmarkPlus className="w-4 h-4" />
+              </button>
+            ) : (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleFavorite(product.id);
+                }}
+                className={`p-2 backdrop-blur-md border border-white/10 transition-colors hover:bg-white/20 ${
+                  isFavorite(product.id) ? 'bg-accent/80 text-accent-foreground' : 'bg-black/40 text-white'
+                }`}
+                title="Add to Favorites"
+              >
+                <Heart 
+                  className={`w-4 h-4 ${isFavorite(product.id) ? 'fill-current' : ''}`}
+                />
+              </button>
+            )}
+          </div>
+
           {/* Details Label */}
           <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               {(product.era && product.era !== 'None') ? `${product.era} · ` : ''}{product.archiveType}
@@ -46,38 +81,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
               {product.name}
             </h3>
           </Link>
-          
-          <div className="flex items-center gap-2">
-            {product.soldOut ? (
-              <button
-                onClick={() => toggleBucketlist(product.id)}
-                className="p-1.5 transition-colors hover:text-accent"
-                title="Add to Wishlist"
-              >
-                <BookmarkPlus 
-                  className={`w-4 h-4 ${
-                    isInBucketlist(product.id) 
-                      ? 'fill-accent text-accent' 
-                      : 'text-muted-foreground'
-                  }`}
-                />
-              </button>
-            ) : (
-              <button
-                onClick={() => toggleFavorite(product.id)}
-                className="p-1.5 transition-colors hover:text-accent"
-                title="Add to Favorites"
-              >
-                <Heart 
-                  className={`w-4 h-4 ${
-                    isFavorite(product.id) 
-                      ? 'fill-accent text-accent' 
-                      : 'text-muted-foreground'
-                  }`}
-                />
-              </button>
-            )}
-          </div>
         </div>
         
         <div className="flex items-center justify-between">

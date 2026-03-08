@@ -20,6 +20,7 @@ interface FormFields {
   description: string
   function: string
   quantity: string
+  featured: boolean
   soldOut: boolean
   image: string
   dropDate: string
@@ -51,6 +52,7 @@ export function AddProduct() {
     formState: { errors },
   } = useForm<FormFields>({
     defaultValues: {
+      featured: false,
       soldOut: false,
       image: '',
       era: 'None',
@@ -262,16 +264,30 @@ export function AddProduct() {
             />
           </div>
 
-          <div className="flex items-center gap-4 pt-4 border-t border-border/50">
-            <input
-              id="prod-soldOut"
-              type="checkbox"
-              {...register('soldOut')}
-              className="h-4 w-4 bg-transparent border-border accent-accent"
-            />
-            <label htmlFor="prod-soldOut" className="detail-label cursor-pointer select-none">
-              Mark as Sold Out
-            </label>
+          <div className="flex flex-wrap items-center gap-12 pt-4 border-t border-border/50">
+            <div className="flex items-center gap-4">
+              <input
+                id="prod-featured"
+                type="checkbox"
+                {...register('featured')}
+                className="h-4 w-4 bg-transparent border-border accent-accent"
+              />
+              <label htmlFor="prod-featured" className="detail-label cursor-pointer select-none">
+                Featured Product
+              </label>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <input
+                id="prod-soldOut"
+                type="checkbox"
+                {...register('soldOut')}
+                className="h-4 w-4 bg-transparent border-border accent-accent"
+              />
+              <label htmlFor="prod-soldOut" className="detail-label cursor-pointer select-none">
+                Mark as Sold Out
+              </label>
+            </div>
           </div>
         </div>
 

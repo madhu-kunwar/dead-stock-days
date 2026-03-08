@@ -45,8 +45,14 @@ const ProductDetail = () => {
   }
 
   const relatedProducts = allProducts
-    .filter(p => p.id !== product.id && p.archiveType === product.archiveType)
-    .slice(0, 2);
+    .filter(p => p.id !== product.id && !p.soldOut)
+    .sort((a, b) => {
+      // Prioritize same archive type and product category
+      const scoreA = (a.archiveType === product.archiveType ? 2 : 0) + (a.productCategory === product.productCategory ? 1 : 0);
+      const scoreB = (b.archiveType === product.archiveType ? 2 : 0) + (b.productCategory === product.productCategory ? 1 : 0);
+      return scoreB - scoreA || Math.random() - 0.5;
+    })
+    .slice(0, 4);
 
   const whatsappMessage = encodeURIComponent(
     `Hi, I'm interested in the ${product.name} (${product.id}) from Dead Stock Days. Is it still available?`
@@ -209,7 +215,7 @@ const ProductDetail = () => {
                 View All →
               </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
               {relatedProducts.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}

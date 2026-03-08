@@ -14,6 +14,7 @@ export interface Product {
   description: string;
   function: string;
   quantity: number;
+  featured?: boolean;
   soldOut: boolean;
   image: string;
   dropDate: string;

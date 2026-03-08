@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -103,14 +103,17 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
     font-weight: 300;
     letter-spacing: 0.01em;
   }
 
   /* Display typography - Bebas Neue */
-  h1, h2, h3, .display {
-    font-family: 'Bebas Neue', sans-serif;
+  h1,
+  h2,
+  h3,
+  .display {
+    font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -132,7 +135,7 @@
   /* Typography System Updates */
   .display-medium {
     @apply text-4xl sm:text-5xl md:text-6xl tracking-wide;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: "Bebas Neue", sans-serif;
   }
 
   .body-large {
@@ -150,7 +153,7 @@
   /* Hero text styles */
   .hero-title {
     @apply text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] leading-none tracking-wider;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: "Bebas Neue", sans-serif;
     text-transform: uppercase;
   }
 
@@ -162,7 +165,7 @@
   /* Section headers */
   .section-title {
     @apply text-4xl sm:text-5xl md:text-6xl tracking-wide;
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: "Bebas Neue", sans-serif;
   }
 
   /* Detail labels */
@@ -229,9 +232,13 @@
   }
 
   .editorial-card::before {
-    @apply absolute inset-0 opacity-0 transition-opacity duration-500;
-    content: '';
-    background: linear-gradient(to top, hsl(var(--background)) 0%, transparent 50%);
+    @apply absolute inset-0 opacity-0 transition-opacity duration-500 pointer-events-none;
+    content: "";
+    background: linear-gradient(
+      to top,
+      hsl(var(--background)) 0%,
+      transparent 50%
+    );
   }
 
   .editorial-card:hover::before {
@@ -245,7 +252,7 @@
 
   .exclusive-border::after {
     @apply absolute bottom-0 left-0 w-0 h-px transition-all duration-500;
-    content: '';
+    content: "";
     background: hsl(var(--accent));
   }
 
@@ -343,10 +350,22 @@
     animation: fadeIn 0.6s ease-out forwards;
   }
 
-  .stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
-  .stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
-  .stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
-  .stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
-  .stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
-  .stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+  .stagger-children > *:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .stagger-children > *:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .stagger-children > *:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .stagger-children > *:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  .stagger-children > *:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+  .stagger-children > *:nth-child(6) {
+    animation-delay: 0.6s;
+  }
 }

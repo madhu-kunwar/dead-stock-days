@@ -233,7 +233,7 @@ const ProductFormModal = ({
     'Jeans', 'Pants / Trousers', 'Shorts', 'Activewear', 'Tank tops', 'Crop tops', 'Cardigan', 'Formal Wear', 'Accessories'
   ];
   const SHOPPING_CATEGORIES = [
-    'New Arrivals', 'Best Sellers', 'Trending', 'Sale / Discount', 
+    'Featured', 'New Arrivals', 'Best Sellers', 'Trending', 'Sale / Discount', 
     'Summer', 'Winter', 'Limited Edition'
   ];
   const STYLE_OPTIONS = ['Streetwear', 'Formal', 'Casual', 'Outerwear', 'Sporty', 'Baggy'];

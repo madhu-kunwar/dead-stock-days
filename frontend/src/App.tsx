@@ -14,12 +14,17 @@ import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
+import { FavoritesProvider } from "./context/FavoritesContext";
+import { BucketlistProvider } from "./context/BucketlistContext";
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <BrowserRouter>
+    <FavoritesProvider>
+      <BucketlistProvider>
+        <TooltipProvider>
+          <BrowserRouter>
         <ScrollToTop />
         <Toaster />
         <Sonner />
@@ -41,9 +46,11 @@ const App = () => (
           </div>
           <Footer />
         </div>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </BucketlistProvider>
+  </FavoritesProvider>
+</QueryClientProvider>
 );
 
 export default App;

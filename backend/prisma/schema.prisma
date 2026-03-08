@@ -22,8 +22,9 @@ model Product {
   description      String
   function         String
   quantity         Int
-  soldOut          Boolean  @default(false)
-  image            String
+  featured    Boolean  @default(false)
+  soldOut     Boolean  @default(false)
+  image       String
   dropDate         String
   dropName         String
   createdAt        DateTime @default(now())
