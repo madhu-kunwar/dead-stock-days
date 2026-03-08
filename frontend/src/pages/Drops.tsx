@@ -40,12 +40,12 @@ const Drops = () => {
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-3xl space-y-6">
             <span className="detail-label">The Collection</span>
-            <h1 className="hero-title text-6xl sm:text-7xl md:text-8xl">Collection</h1>
-            <p className="text-muted-foreground text-lg leading-relaxed max-w-xl">
+            <h1 className="hero-title text-5xl sm:text-7xl md:text-8xl leading-none">Collection</h1>
+            <p className="text-muted-foreground text-sm sm:text-lg leading-relaxed max-w-xl">
               Each piece is sourced, verified, and presented with intention. 
               When quantities reach zero, items are permanently removed from store.
             </p>
-            <div className="flex items-center gap-6 text-sm">
+            <div className="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm">
               <span className="text-accent">{availableCount} Available</span>
               <span className="text-muted-foreground">{soldOutCount} Archived</span>
             </div>
@@ -57,9 +57,9 @@ const Drops = () => {
       <section className="sticky top-20 bg-background/95 backdrop-blur-sm z-30 border-b border-border">
         <div className="container mx-auto px-6 lg:px-12">
           {/* Main Category Filter - Horizontal Scroll */}
-          <div className="flex items-center border-b border-border/50">
+          <div className="flex items-center border-b border-border/50 relative">
             <span className="detail-label mr-8 hidden md:block shrink-0">Type</span>
-            <div className="flex gap-8 overflow-x-auto no-scrollbar py-6">
+            <div className="flex gap-6 sm:gap-8 overflow-x-auto no-scrollbar py-4 sm:py-6 lg:mask-fade-edges">
               {collectionTypes.map(type => (
                 <button
                   key={type}
@@ -83,11 +83,11 @@ const Drops = () => {
           </div>
 
           {/* Secondary Filters Bar */}
-          <div className="flex flex-wrap items-center justify-between py-6 gap-6">
-            <div className="flex flex-wrap items-center gap-12">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 sm:py-6 gap-4 sm:gap-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-12">
               {/* Era Selection */}
-              <div className="flex items-center gap-4">
-                <span className="detail-label">Era</span>
+              <div className="flex items-center gap-3 sm:gap-4 overflow-x-auto no-scrollbar py-1">
+                <span className="detail-label shrink-0">Era</span>
                 <div className="flex gap-3">
                   {eras.map(era => (
                     <button
@@ -106,14 +106,14 @@ const Drops = () => {
               </div>
 
               {/* Style Selection */}
-              <div className="flex items-center gap-4">
-                <span className="detail-label">Style</span>
-                <div className="flex gap-3">
+              <div className="flex items-center gap-3 sm:gap-4 overflow-x-auto no-scrollbar py-1">
+                <span className="detail-label shrink-0">Style</span>
+                <div className="flex gap-2 sm:gap-3">
                   {styles.map(style => (
                     <button
                       key={style}
                       onClick={() => setStyleFilter(style)}
-                      className={`text-[10px] tracking-widest uppercase px-3 py-1 border transition-all ${
+                      className={`text-[9px] sm:text-[10px] tracking-widest uppercase px-2 sm:px-3 py-1 border transition-all whitespace-nowrap ${
                         styleFilter === style
                           ? 'border-accent text-accent bg-accent/5'
                           : 'border-border text-muted-foreground hover:border-muted-foreground'
@@ -127,11 +127,11 @@ const Drops = () => {
             </div>
 
             {/* Sold Out Toggle & Clear */}
-            <div className="flex items-center gap-8 ml-auto">
+            <div className="flex items-center justify-between sm:justify-end gap-6 sm:gap-8 w-full sm:w-auto pt-2 sm:pt-0">
               <label className="flex items-center gap-3 cursor-pointer group">
-                <div className="relative w-8 h-4 bg-muted border border-border transition-colors group-hover:border-muted-foreground">
-                  <div className={`absolute top-0.5 left-0.5 w-2.5 h-2.5 transition-all duration-300 ${
-                    showSoldOut ? 'translate-x-4 bg-accent' : 'translate-x-0 bg-muted-foreground'
+                <div className="relative w-7 h-3.5 sm:w-8 sm:h-4 bg-muted border border-border transition-colors group-hover:border-muted-foreground">
+                  <div className={`absolute top-0.5 left-0.5 w-2 sm:w-2.5 h-2 sm:h-2.5 transition-all duration-300 ${
+                    showSoldOut ? 'translate-x-[calc(100% + 4px)] sm:translate-x-4 bg-accent' : 'translate-x-0 bg-muted-foreground'
                   }`} />
                 </div>
                 <input
@@ -140,15 +140,15 @@ const Drops = () => {
                   onChange={(e) => setShowSoldOut(e.target.checked)}
                   className="hidden"
                 />
-                <span className="text-[10px] tracking-widest uppercase text-muted-foreground group-hover:text-foreground transition-colors">
-                  Archived Pieces
+                <span className="text-[9px] sm:text-[10px] tracking-widest uppercase text-muted-foreground group-hover:text-foreground transition-colors">
+                  Archive Pieces
                 </span>
               </label>
 
               {(collectionFilter !== 'All' || eraFilter !== 'All' || styleFilter !== 'All') && (
                 <button 
                   onClick={() => { setCollectionFilter('All'); setEraFilter('All'); setStyleFilter('All'); setShowSoldOut(false); }}
-                  className="text-[10px] tracking-widest uppercase text-accent hover:underline underline-offset-4"
+                  className="text-[9px] sm:text-[10px] tracking-widest uppercase text-accent hover:underline underline-offset-4"
                 >
                   Reset
                 </button>

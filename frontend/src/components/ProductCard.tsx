@@ -26,9 +26,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
           {/* Status Badge */}
           <div className="absolute top-4 left-4">
             {product.soldOut ? (
-              <span className="sold-out-badge">Sold Out</span>
+              <span className="sold-out-badge text-[9px] sm:text-xs">Sold Out</span>
             ) : (
-              <span className="quantity-badge">Only {product.quantity} Left</span>
+              <span className="quantity-badge text-[9px] sm:text-xs">Only {product.quantity} Left</span>
             )}
           </div>
 

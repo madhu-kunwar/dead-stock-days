@@ -28,11 +28,11 @@ const FeaturedSlider = ({ products }: { products: Product[] }) => {
     <section className="py-24 border-b border-border bg-card/10">
       <div className="container-editorial">
         <div className="flex items-end justify-between mb-12">
-          <div>
+          <div className="flex-1">
             <span className="detail-label mb-2 block text-accent">Curated Selection</span>
-            <h2 className="hero-title text-5xl md:text-6xl tracking-tighter uppercase">Featured<br/>Collection</h2>
+            <h2 className="hero-title text-4xl sm:text-5xl md:text-6xl tracking-tighter uppercase leading-[0.9]">Featured<br/>Collection</h2>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-2 sm:gap-4 shrink-0">
             <button 
               onClick={scrollPrev}
               className="p-4 border border-border hover:bg-muted transition-colors"
@@ -183,15 +183,15 @@ const Index = () => {
             transition={{ duration: 0.8 }}
           >
             <span className="detail-label text-accent mb-8 block tracking-[0.4em]">Collection Sequence 001</span>
-            <h1 className="hero-title text-[12vw] sm:text-[10vw] leading-[0.85] mb-12 select-none pointer-events-none">
+            <h1 className="hero-title text-[15vw] sm:text-[10vw] leading-[0.85] mb-8 sm:mb-12 select-none pointer-events-none">
               DEADSTOCK<br />DAYS
             </h1>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-              <Link to="/drops" className="btn-request px-16 text-sm py-5">
-                Explore Full Collection
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
+              <Link to="/drops" className="btn-request w-full sm:w-auto px-10 sm:px-16 text-xs sm:text-sm py-4 sm:py-5 uppercase tracking-[0.3em]">
+                Explore Collection
               </Link>
-              <div className="h-px w-12 bg-border hidden sm:block" />
-              <p className="text-muted-foreground text-xs uppercase tracking-widest max-w-[200px]">
+              <div className="h-px w-10 bg-border/50 hidden sm:block" />
+              <p className="text-muted-foreground text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.4em] max-w-[200px] leading-relaxed">
                 Limited pieces. Verified history. Permanent archival.
               </p>
             </div>
@@ -245,16 +245,16 @@ const Index = () => {
       {/* Main Inventory Title */}
       <section className="pt-32 pb-12 bg-background">
         <div className="container mx-auto px-6 lg:px-12">
-            <div className="flex flex-col md:flex-row items-end justify-between border-b border-border pb-12 gap-8">
+            <div className="flex flex-col md:flex-row items-start justify-between border-b border-border pb-12 gap-8">
                 <div className="max-w-xl">
                     <span className="detail-label block mb-4">Latest Arrivals</span>
                     <h2 className="hero-title text-5xl md:text-6xl tracking-tight uppercase">The Collection</h2>
-                    <p className="text-muted-foreground mt-6 leading-relaxed">
+                    {/* <p className="text-muted-foreground mt-6 leading-relaxed">
                         Every garment passed through our selection process. Extremely rare, unworn vintage and curated items from global fashion periods.
-                    </p>
+                    </p> */}
                 </div>
                 <div className="text-right">
-                    <span className="font-display text-7xl leading-none text-muted-foreground opacity-10 uppercase block">Total Items: {products.length}</span>
+                    <span className="font-display text-lg md:text-3xl leading-none text-muted-foreground opacity-10 uppercase block">Total Items: {products.length}</span>
                 </div>
             </div>
         </div>
@@ -298,9 +298,9 @@ const Index = () => {
                 <div className="mt-24 flex justify-center border-t border-border pt-24">
                   <button 
                     onClick={handleShowMore}
-                    className="group relative px-24 py-6 border border-border hover:bg-foreground hover:text-background transition-colors duration-500 overflow-hidden"
+                    className="group relative w-full sm:w-auto px-12 sm:px-24 py-5 sm:py-6 border border-border hover:bg-foreground hover:text-background transition-colors duration-500 overflow-hidden"
                   >
-                    <span className="relative z-10 detail-label uppercase text-sm tracking-[0.3em]">Load More Pieces</span>
+                    <span className="relative z-10 detail-label uppercase text-xs sm:text-sm tracking-[0.3em]">Load More Pieces</span>
                     <div className="absolute bottom-0 left-0 h-1 bg-accent w-0 group-hover:w-full transition-all duration-700" />
                   </button>
                 </div>

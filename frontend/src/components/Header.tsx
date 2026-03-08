@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Heart, Menu, X, Lock } from 'lucide-react';
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import logo from '@/assets/logo.jpg';
 import { useFavorites } from '@/hooks/useFavorites';
 
@@ -23,11 +24,11 @@ const Header = () => {
       <nav className="container mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="Dead Stock Days" className='h-10 w-10 rounded-full border-2 border-stone-200' />
-            <div className='flex items-center gap-2'>
-            <span className="font-display text-2xl tracking-widest">DEAD STOCK</span>
-            <span className="text-xs tracking-[0.4em] text-muted-foreground -mt-1">DAYS</span>
+          <Link to="/" className="flex items-center gap-2 shrink-0">
+            <img src={logo} alt="Dead Stock Days" className='h-8 w-8 sm:h-10 sm:w-10 rounded-full border-2 border-stone-200' />
+            <div className='flex items-center gap-1.5 sm:gap-2'>
+              <span className="font-display text-xl sm:text-2xl tracking-widest whitespace-nowrap">DEAD STOCK</span>
+              <span className="text-[10px] sm:text-xs tracking-[0.3em] sm:tracking-[0.4em] text-muted-foreground -mt-1 hidden xs:inline">DAYS</span>
             </div>
           </Link>
 
@@ -79,22 +80,35 @@ const Header = () => {
         </div>
 
         {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden absolute top-20 left-0 right-0 bg-background border-b border-border animate-fade-in">
-            <div className="flex flex-col py-8 px-6 gap-6">
-              {navLinks.map(link => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className={`nav-link text-lg ${isActive(link.to) ? 'active' : ''}`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden absolute top-20 left-0 right-0 bg-background border-b border-border overflow-hidden"
+            >
+              <div className="flex flex-col py-8 px-6 gap-8">
+                {navLinks.map((link, idx) => (
+                  <motion.div
+                    key={link.to}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    <Link
+                      to={link.to}
+                      className={`nav-link text-2xl font-display tracking-widest ${isActive(link.to) ? 'active' : ''}`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </header>
   );

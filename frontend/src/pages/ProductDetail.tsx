@@ -80,12 +80,12 @@ const ProductDetail = () => {
                 className={product.soldOut ? 'grayscale opacity-70' : ''}
               />
               {product.soldOut ? (
-                <div className="absolute top-6 left-6">
-                  <span className="sold-out-badge">Out of Stock</span>
+                <div className="absolute top-4 sm:top-6 left-4 sm:left-6">
+                  <span className="sold-out-badge text-xs sm:text-sm">Out of Stock</span>
                 </div>
               ) : (
-                <div className="absolute top-6 left-6">
-                  <span className="quantity-badge">Only {product.quantity} Remaining</span>
+                <div className="absolute top-4 sm:top-6 left-4 sm:left-6">
+                  <span className="quantity-badge text-xs sm:text-sm">Only {product.quantity} Remaining</span>
                 </div>
               )}
             </div>
@@ -93,10 +93,10 @@ const ProductDetail = () => {
             {/* Details */}
             <div className="space-y-8">
               {/* Header */}
-              <div className="space-y-4">
+              <div className="space-y-2 sm:space-y-4">
                 <span className="detail-label">{product.dropName}</span>
-                <h2 className="font-display text-5xl md:text-6xl tracking-wide">{product.name}</h2>
-                <p className="text-3xl font-light">Rs. {product.price}</p>
+                <h2 className="font-display text-4xl sm:text-5xl md:text-6xl tracking-wide leading-tight">{product.name}</h2>
+                <p className="text-2xl sm:text-3xl font-light">Rs. {product.price}</p>
               </div>
 
               {/* Description */}
@@ -105,37 +105,37 @@ const ProductDetail = () => {
               </p>
 
               {/* Details Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-8 py-8 border-y border-border">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4 sm:gap-8 py-6 sm:py-8 border-y border-border">
                 {product.era && product.era !== 'None' && (
                   <div className="space-y-1">
-                    <span className="detail-label">Era</span>
-                    <p className="font-display text-xl">{product.era}</p>
+                    <span className="detail-label text-[10px]">Era</span>
+                    <p className="font-display text-lg sm:text-xl">{product.era}</p>
                   </div>
                 )}
                 <div className="space-y-1">
-                  <span className="detail-label">Category</span>
-                  <p className="font-display text-xl">{product.productCategory || product.archiveType}</p>
+                  <span className="detail-label text-[10px]">Category</span>
+                  <p className="font-display text-lg sm:text-xl">{product.productCategory || product.archiveType}</p>
                 </div>
                 <div className="space-y-1">
-                  <span className="detail-label">Style</span>
-                  <p className="font-display text-xl">{product.style || 'Streetwear'}</p>
+                  <span className="detail-label text-[10px]">Style</span>
+                  <p className="font-display text-lg sm:text-xl">{product.style || 'Streetwear'}</p>
                 </div>
                 {product.brand && (
                   <div className="space-y-1">
-                    <span className="detail-label">Brand</span>
-                    <p className="font-display text-xl">{product.brand}</p>
+                    <span className="detail-label text-[10px]">Brand</span>
+                    <p className="font-display text-lg sm:text-xl">{product.brand}</p>
                   </div>
                 )}
                 {product.material && (
                   <div className="space-y-1">
-                    <span className="detail-label">Material</span>
-                    <p className="font-display text-xl">{product.material}</p>
+                    <span className="detail-label text-[10px]">Material</span>
+                    <p className="font-display text-lg sm:text-xl">{product.material}</p>
                   </div>
                 )}
                 <div className="space-y-1">
-                  <span className="detail-label">Availability</span>
-                  <p className={`font-display text-xl ${product.soldOut ? 'text-destructive' : 'text-accent'}`}>
-                    {product.soldOut ? 'Sold Out' : `${product.quantity} Available`}
+                  <span className="detail-label text-[10px]">Stock</span>
+                  <p className={`font-display text-lg sm:text-xl ${product.soldOut ? 'text-destructive' : 'text-accent'}`}>
+                    {product.soldOut ? 'None' : `${product.quantity} Left`}
                   </p>
                 </div>
               </div>

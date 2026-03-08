@@ -99,6 +99,8 @@
 
   html {
     scroll-behavior: smooth;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
@@ -106,6 +108,7 @@
     font-family: "Inter", system-ui, sans-serif;
     font-weight: 300;
     letter-spacing: 0.01em;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   /* Display typography - Bebas Neue */
@@ -129,12 +132,12 @@
 @layer components {
   /* Editorial Container */
   .container-editorial {
-    @apply container mx-auto px-6 lg:px-12 max-w-7xl;
+    @apply container mx-auto px-4 sm:px-6 lg:px-12 max-w-7xl;
   }
 
   /* Typography System Updates */
   .display-medium {
-    @apply text-4xl sm:text-5xl md:text-6xl tracking-wide;
+    @apply text-3xl sm:text-5xl md:text-6xl tracking-wide;
     font-family: "Bebas Neue", sans-serif;
   }
 
@@ -152,14 +155,17 @@
 
   /* Hero text styles */
   .hero-title {
-    @apply text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] leading-none tracking-wider;
+    @apply text-5xl sm:text-8xl md:text-9xl lg:text-[12rem] leading-[0.85] sm:leading-none tracking-wider text-balance;
     font-family: "Bebas Neue", sans-serif;
     text-transform: uppercase;
   }
 
   .hero-subtitle {
-    @apply text-lg sm:text-xl md:text-2xl font-light tracking-widest uppercase;
-    letter-spacing: 0.3em;
+    @apply text-sm sm:text-xl md:text-2xl font-light tracking-widest uppercase text-balance;
+    letter-spacing: 0.2em;
+    @screen sm {
+      letter-spacing: 0.3em;
+    }
   }
 
   /* Section headers */
@@ -203,10 +209,32 @@
 
   /* Gritty grain overlay */
   .grain-overlay {
-    @apply fixed inset-0 pointer-events-none z-50;
+    @apply fixed inset-0 pointer-events-none z-[60];
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     opacity: 0.03;
     mix-blend-mode: overlay;
+  }
+
+  /* Mask fading for horizontal scrolls */
+  .mask-fade-edges {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  @media (min-width: 1024px) {
+    .lg\:mask-fade-edges {
+      mask-image: none;
+      -webkit-mask-image: none;
+    }
+  }
+
+  /* Utility for hiding scrollbars but keeping functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   /* Minimal scrollbar */
