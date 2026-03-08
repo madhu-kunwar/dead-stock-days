@@ -58,8 +58,14 @@ const ProductDetail = () => {
     .slice(0, 4);
 
   const whatsappMessage = encodeURIComponent(
-    `Hi, I'm interested in the ${product.name} (${product.id}) from Dead Stock Days. Is it still available?`
+    `Hi Dead Stock Days, I'm interested in acquiring the ${product.name} (Ref: ${product.id}).\n\n` +
+    `• Price: Rs. ${product.price}\n` +
+    `• Size: ${product.size || 'Unisex'}\n` +
+    `• Collection: ${product.dropName}\n\n` +
+    `Can you please confirm if this piece is still available?`
   );
+
+  const instagramLink = `https://www.instagram.com/direct/t/17845963320653796/`;
 
   return (
     <main className="pt-20">
@@ -163,11 +169,19 @@ const ProductDetail = () => {
                     <p className="font-display text-lg sm:text-xl">{product.material}</p>
                   </div>
                 )}
+                {product.color && (
+                  <div className="space-y-1">
+                    <span className="detail-label text-[10px]">Colorway</span>
+                    <p className="font-display text-lg sm:text-xl">{product.color}</p>
+                  </div>
+                )}
                 <div className="space-y-1">
-                  <span className="detail-label text-[10px]">Stock</span>
-                  <p className={`font-display text-lg sm:text-xl ${product.soldOut ? 'text-destructive' : 'text-accent'}`}>
-                    {product.soldOut ? 'None' : `${product.quantity} Left`}
-                  </p>
+                  <span className="detail-label text-[10px]">Style</span>
+                  <p className="font-display text-lg sm:text-xl">{product.style || 'Streetwear'}</p>
+                </div>
+                <div className="space-y-1 col-span-2">
+                  <span className="detail-label text-[10px]">Ref. ID</span>
+                  <p className="font-display text-xs sm:text-sm text-muted-foreground uppercase">{product.id}</p>
                 </div>
               </div>
 
@@ -198,10 +212,10 @@ const ProductDetail = () => {
                     Request to Buy via WhatsApp
                   </a>
                   <a 
-                    href="https://www.instagram.com/direct/t/17845963320653796/"
+                    href={instagramLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-outline w-full"
+                    className="btn-outline w-full flex items-center justify-center gap-2"
                   >
                     DM on Instagram
                   </a>
