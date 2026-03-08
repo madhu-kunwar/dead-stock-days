@@ -51,7 +51,7 @@ export function Products() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-border gap-6 ">
           <div>
-            <span className="archive-label">Inventory List</span>
+            <span className="detail-label">Inventory List</span>
             <h1 className="hero-title text-5xl sm:text-6xl md:text-7xl">Products</h1>
             <p className="text-muted-foreground mt-4 max-w-md">
               Currently managing {products.length} products in your store.
@@ -78,17 +78,17 @@ export function Products() {
         {/* Info Highlights */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-muted/30 p-8 border border-border">
-            <span className="archive-label">Total Items</span>
+            <span className="detail-label">Total Items</span>
             <p className="hero-title text-4xl mt-2">{products.length}</p>
           </div>
           <div className="bg-muted/30 p-8 border border-border">
-            <span className="archive-label">Available Stocks</span>
+            <span className="detail-label">Available Stocks</span>
             <p className="hero-title text-4xl mt-2 text-accent">
               {products.filter(p => !p.soldOut).length}
             </p>
           </div>
           <div className="bg-muted/30 p-8 border border-border">
-            <span className="archive-label">Sold Out</span>
+            <span className="detail-label">Sold Out</span>
             <p className="hero-title text-4xl mt-2 text-destructive">
               {products.filter(p => p.soldOut).length}
             </p>
@@ -108,14 +108,14 @@ export function Products() {
             <table className="w-full">
               <thead className="bg-muted border-b border-border text-left">
                 <tr>
-                  <th className="px-6 py-4 archive-label w-24">Image</th>
-                  <th className="px-6 py-4 archive-label">Product Name</th>
-                  <th className="px-6 py-4 archive-label">Price</th>
-                  <th className="px-6 py-4 archive-label hidden md:table-cell">Era</th>
-                  <th className="px-6 py-4 archive-label hidden lg:table-cell">Category</th>
-                  <th className="px-6 py-4 archive-label">Quantity</th>
-                  <th className="px-6 py-4 archive-label">Status</th>
-                  <th className="px-6 py-4 archive-label text-right">Actions</th>
+                  <th className="px-6 py-4 detail-label w-24">Image</th>
+                  <th className="px-6 py-4 detail-label">Product Name</th>
+                  <th className="px-6 py-4 detail-label">Price</th>
+                  <th className="px-6 py-4 detail-label hidden md:table-cell">Era</th>
+                  <th className="px-6 py-4 detail-label hidden lg:table-cell">Category</th>
+                  <th className="px-6 py-4 detail-label">Quantity</th>
+                  <th className="px-6 py-4 detail-label">Status</th>
+                  <th className="px-6 py-4 detail-label text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -171,7 +171,7 @@ export function Products() {
           </div>
           {filtered.length === 0 && !isLoading && (
             <div className="py-24 text-center border-t border-border bg-muted/10">
-              <p className="archive-label">No products found.</p>
+              <p className="detail-label">No products found.</p>
             </div>
           )}
         </div>

@@ -12,11 +12,13 @@ import Favorites from "./pages/Favorites";
 import About from "./pages/About";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <ScrollToTop />
     <TooltipProvider>
       <Toaster />
       <Sonner />

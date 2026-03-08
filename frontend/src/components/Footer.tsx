@@ -13,13 +13,13 @@ const Footer = () => {
               <span className="text-sm tracking-[0.4em] text-muted-foreground -mt-1">DAYS</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
-              Extremely limited archive pieces. 2–3 per item. No restocks. Ever.
+              Extremely limited exclusive pieces. 2–3 per item. No restocks. Ever.
             </p>
           </div>
 
           {/* Links */}
           <div className="space-y-4">
-            <span className="archive-label">Navigation</span>
+            <span className="detail-label">Navigation</span>
             <div className="flex flex-col gap-3">
               <Link to="/drops" className="nav-link">Archive</Link>
               <Link to="/about" className="nav-link">Philosophy</Link>
@@ -29,7 +29,7 @@ const Footer = () => {
 
           {/* Connect */}
           <div className="space-y-4">
-            <span className="archive-label">Connect</span>
+            <span className="detail-label">Connect</span>
             <div className="flex flex-col gap-3">
               <a 
                 href="https://www.instagram.com/deadstockdays_np/" 

@@ -1,8 +1,15 @@
 export declare class CreateProductDto {
     name: string;
     price: number;
-    era: string;
+    era?: string;
     archiveType: string;
+    productCategory?: string;
+    shoppingCategory?: string;
+    size?: string;
+    color?: string;
+    brand?: string;
+    material?: string;
+    style?: string;
     description: string;
     function: string;
     quantity: number;

@@ -11,7 +11,7 @@ export interface Product {
   id: string
   name: string
   price: number
-  era: string
+  era?: string
   archiveType: string
   productCategory?: string
   shoppingCategory?: string

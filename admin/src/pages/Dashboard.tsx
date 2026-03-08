@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { 
   Package, 
-  ShoppingCart, 
-  TrendUp, 
   Clock, 
   ShieldCheck, 
   Activity,
-  LogOut
+  LogOut,
+  TrendingUp
 } from 'lucide-react'
 import { productApi } from '../lib/api'
 
@@ -35,9 +34,16 @@ export function Dashboard() {
       color: 'text-accent'
     },
     {
+      label: 'Sold Out Pieces',
+      value: soldOutProducts,
+      icon: Clock,
+      description: 'Waiting for restock/similar items',
+      color: 'text-destructive'
+    },
+    {
       label: 'Total Value',
       value: `Rs. ${totalValue.toLocaleString()}`,
-      icon: TrendUp,
+      icon: TrendingUp,
       description: 'Total worth of all products'
     }
   ]
@@ -48,7 +54,7 @@ export function Dashboard() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-border gap-6">
           <div>
-            <span className="archive-label">Admin Panel</span>
+            <span className="detail-label">Admin Panel</span>
             <h1 className="hero-title text-5xl sm:text-6xl md:text-7xl">Overview</h1>
             <p className="text-muted-foreground mt-4 max-w-md">
               Manage your products and track your stock details.
@@ -67,7 +73,7 @@ export function Dashboard() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-16">
           {stats.map((stat, i) => (
             <div 
               key={stat.label} 
@@ -78,7 +84,7 @@ export function Dashboard() {
                 <stat.icon className="w-6 h-6 text-muted-foreground" />
                 <span className="text-[10px] tracking-tight text-muted-foreground/40 uppercase">Stat #{i+1}</span>
               </div>
-              <p className="archive-label mb-2">{stat.label}</p>
+              <p className="detail-label mb-2">{stat.label}</p>
               <h3 className={`hero-title text-4xl mb-4 ${stat.color || ''}`}>{isLoading ? '...' : stat.value}</h3>
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest leading-relaxed">
                 {stat.description}
@@ -110,7 +116,7 @@ export function Dashboard() {
               </div>
             </div>
             
-            <button className="archive-label hover:text-foreground transition-colors mt-8 inline-flex items-center gap-2">
+            <button className="detail-label hover:text-foreground transition-colors mt-8 inline-flex items-center gap-2">
               VIEW SYSTEM LOGS →
             </button>
           </div>

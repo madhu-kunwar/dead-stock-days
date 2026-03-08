@@ -14,7 +14,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const { toggleBucketlist, isInBucketlist } = useBucketlist();
 
   return (
-    <div className="group archive-card">
+    <div className="group editorial-card">
       <Link to={`/product/${product.id}`} className="block">
         <div className="editorial-image bg-muted">
           <img 
@@ -32,11 +32,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
             )}
           </div>
 
-          {/* Archive Label */}
+          {/* Details Label */}
           <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <span className="text-xs tracking-[0.2em] uppercase text-foreground/80">
-              {product.era} · {product.archiveType}
-            </span>
+              {(product.era && product.era !== 'None') ? `${product.era} · ` : ''}{product.archiveType}
           </div>
         </div>
       </Link>
@@ -54,7 +52,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               <button
                 onClick={() => toggleBucketlist(product.id)}
                 className="p-1.5 transition-colors hover:text-accent"
-                title="Add to Bucketlist"
+                title="Add to Wishlist"
               >
                 <BookmarkPlus 
                   className={`w-4 h-4 ${
@@ -83,7 +81,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
         
         <div className="flex items-center justify-between">
-          <span className="archive-label">{product.dropName}</span>
+          <span className="detail-label">{product.dropName}</span>
           <span className="text-sm tracking-wide">Rs. {product.price}</span>
         </div>
       </div>

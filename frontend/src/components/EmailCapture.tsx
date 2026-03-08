@@ -24,10 +24,10 @@ const EmailCapture = () => {
       <div className="container mx-auto px-6 lg:px-12 py-24">
         <div className="max-w-2xl mx-auto text-center space-y-8">
           <div className="space-y-4">
-            <span className="archive-label">Stay Informed</span>
+            <span className="detail-label">Stay Informed</span>
             <h2 className="section-title">First Access</h2>
             <p className="text-muted-foreground leading-relaxed">
-              Be the first to know when new archive pieces drop. 
+              Be the first to know when new exclusive pieces drop. 
               No spam, just rare finds.
             </p>
           </div>

@@ -38,7 +38,7 @@ const ProductDetail = () => {
       <main className="pt-20 min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="font-display text-4xl mb-4">Piece Not Found</h1>
-          <Link to="/drops" className="nav-link">Return to Archive →</Link>
+          <Link to="/drops" className="nav-link">Back to Collection →</Link>
         </div>
       </main>
     );
@@ -58,7 +58,7 @@ const ProductDetail = () => {
       <div className="container mx-auto px-6 lg:px-12 py-6">
         <Link to="/drops" className="inline-flex items-center gap-2 nav-link">
           <ArrowLeft className="w-4 h-4" />
-          Back to Archive
+          Back to Collection
         </Link>
       </div>
 
@@ -75,7 +75,7 @@ const ProductDetail = () => {
               />
               {product.soldOut ? (
                 <div className="absolute top-6 left-6">
-                  <span className="sold-out-badge">Archived · Sold Out</span>
+                  <span className="sold-out-badge">Out of Stock</span>
                 </div>
               ) : (
                 <div className="absolute top-6 left-6">
@@ -88,8 +88,8 @@ const ProductDetail = () => {
             <div className="space-y-8">
               {/* Header */}
               <div className="space-y-4">
-                <span className="archive-label">{product.dropName}</span>
-                <h1 className="font-display text-5xl md:text-6xl tracking-wide">{product.name}</h1>
+                <span className="detail-label">{product.dropName}</span>
+                <h2 className="font-display text-5xl md:text-6xl tracking-wide">{product.name}</h2>
                 <p className="text-3xl font-light">Rs. {product.price}</p>
               </div>
 
@@ -100,32 +100,34 @@ const ProductDetail = () => {
 
               {/* Details Grid */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-8 py-8 border-y border-border">
+                {product.era && product.era !== 'None' && (
+                  <div className="space-y-1">
+                    <span className="detail-label">Era</span>
+                    <p className="font-display text-xl">{product.era}</p>
+                  </div>
+                )}
                 <div className="space-y-1">
-                  <span className="archive-label">Era</span>
-                  <p className="font-display text-xl">{product.era}</p>
-                </div>
-                <div className="space-y-1">
-                  <span className="archive-label">Category</span>
+                  <span className="detail-label">Category</span>
                   <p className="font-display text-xl">{product.productCategory || product.archiveType}</p>
                 </div>
                 <div className="space-y-1">
-                  <span className="archive-label">Style</span>
+                  <span className="detail-label">Style</span>
                   <p className="font-display text-xl">{product.style || 'Streetwear'}</p>
                 </div>
                 {product.brand && (
                   <div className="space-y-1">
-                    <span className="archive-label">Brand</span>
+                    <span className="detail-label">Brand</span>
                     <p className="font-display text-xl">{product.brand}</p>
                   </div>
                 )}
                 {product.material && (
                   <div className="space-y-1">
-                    <span className="archive-label">Material</span>
+                    <span className="detail-label">Material</span>
                     <p className="font-display text-xl">{product.material}</p>
                   </div>
                 )}
                 <div className="space-y-1">
-                  <span className="archive-label">Availability</span>
+                  <span className="detail-label">Availability</span>
                   <p className={`font-display text-xl ${product.soldOut ? 'text-destructive' : 'text-accent'}`}>
                     {product.soldOut ? 'Sold Out' : `${product.quantity} Available`}
                   </p>
@@ -136,7 +138,7 @@ const ProductDetail = () => {
               {product.soldOut ? (
                 <div className="space-y-4">
                   <p className="text-muted-foreground">
-                    This piece has been permanently archived. Add to your bucketlist to be 
+                    This piece has been sold out. Add to your wishlist to be 
                     notified if similar pieces become available.
                   </p>
                   <button
@@ -144,7 +146,7 @@ const ProductDetail = () => {
                     className={`btn-outline w-full ${isInBucketlist(product.id) ? 'border-accent text-accent' : ''}`}
                   >
                     <BookmarkPlus className="w-5 h-5" />
-                    {isInBucketlist(product.id) ? 'Added to Bucketlist' : 'Add to Bucketlist'}
+                    {isInBucketlist(product.id) ? 'Added to Wishlist' : 'Add to Wishlist'}
                   </button>
                 </div>
               ) : (
@@ -178,7 +180,7 @@ const ProductDetail = () => {
 
               {/* Drop Info */}
               <div className="bg-muted p-6 space-y-2">
-                <span className="archive-label">Drop Information</span>
+                <span className="detail-label">Drop Information</span>
                 <p className="text-sm text-muted-foreground">
                   This piece was released as part of {product.dropName} on{' '}
                   {new Date(product.dropDate).toLocaleDateString('en-US', { 
@@ -200,7 +202,7 @@ const ProductDetail = () => {
           <div className="container mx-auto px-6 lg:px-12">
             <div className="flex items-end justify-between mb-12">
               <div className="space-y-2">
-                <span className="archive-label">More From Archive</span>
+                <span className="detail-label">Explore More</span>
                 <h2 className="section-title">Related Pieces</h2>
               </div>
               <Link to="/drops" className="nav-link exclusive-border pb-1">

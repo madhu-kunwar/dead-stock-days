@@ -26,16 +26,16 @@ interface FormFields {
   dropName: string
 }
 
-const ERA_OPTIONS = ['80s', '90s', '2000s']
+const ERA_OPTIONS = ['None', '80s', '90s', '2000s']
 const PRODUCT_CATEGORIES = [
   'T-Shirts', 'Shirts', 'Hoodies & Sweatshirts', 'Jackets & Coats', 
-  'Jeans', 'Pants / Trousers', 'Shorts', 'Activewear', 'Underwear', 'Suits / Formal Wear'
+  'Jeans', 'Pants / Trousers', 'Shorts', 'Activewear', 'Tank tops', 'Crop tops', 'Cardigan', 'Formal Wear', 'Accessories'
 ]
 const SHOPPING_CATEGORIES = [
   'New Arrivals', 'Best Sellers', 'Trending', 'Sale / Discount', 
   'Summer', 'Winter', 'Limited Edition'
 ]
-const STYLE_OPTIONS = ['Streetwear', 'Formal', 'Casual']
+const STYLE_OPTIONS = ['Streetwear', 'Formal', 'Casual', 'Outerwear', 'Sporty', 'Baggy']
 
 export function AddProduct() {
   const navigate = useNavigate()
@@ -53,13 +53,13 @@ export function AddProduct() {
     defaultValues: {
       soldOut: false,
       image: '',
-      era: '90s',
+      era: 'None',
       archiveType: 'Tops',
       productCategory: 'T-Shirts',
       shoppingCategory: 'New Arrivals',
       style: 'Streetwear',
       dropDate: new Date().toISOString().split('T')[0],
-      dropName: 'Archive 001'
+      dropName: 'Drop 001'
     },
   })
 
@@ -80,17 +80,15 @@ export function AddProduct() {
     } finally {
       setSubmitting(false)
     }
-  }][\;;
-  ]\
-  ['
-  ]
+  }
+
 
   if (success) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
         <CheckCircle2 className="h-24 w-24 text-accent animate-in fade-in zoom-in duration-500" />
         <h2 className="hero-title text-4xl mt-4">Product Added!</h2>
-        <p className="archive-label">Taking you back to the list…</p>
+        <p className="detail-label">Taking you back to the list…</p>
       </div>
     )
   }
@@ -102,7 +100,7 @@ export function AddProduct() {
           <button
             type="button"
             onClick={() => navigate('/products')}
-            className="archive-label flex items-center gap-2 hover:text-foreground transition-colors mb-4"
+            className="detail-label flex items-center gap-2 hover:text-foreground transition-colors mb-4"
           >
             <ArrowLeft className="h-3 w-3" /> BACK TO PRODUCTS
           </button>
@@ -118,7 +116,7 @@ export function AddProduct() {
         <div className="bg-card border border-border p-8">
           <div className="flex flex-col gap-6">
             <div>
-              <span className="archive-label block mb-6">Product Image</span>
+              <span className="detail-label block mb-6">Product Image</span>
               <CloudinaryUploader
                 value={watch('image')}
                 onChange={(url) => setValue('image', url)}
@@ -139,7 +137,7 @@ export function AddProduct() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
             <div className="space-y-2">
-              <label className="archive-label">Product Name</label>
+              <label className="detail-label">Product Name</label>
               <input
                 {...register('name', { required: 'Name is required' })}
                 placeholder="e.g. Vintage T-Shirt"
@@ -149,7 +147,7 @@ export function AddProduct() {
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Price (Rs.)</label>
+              <label className="detail-label">Price (Rs.)</label>
               <input
                 type="number"
                 step="0.01"
@@ -161,28 +159,28 @@ export function AddProduct() {
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Category</label>
+              <label className="detail-label">Category</label>
               <select {...register('productCategory', { required: true })} className="input-editorial cursor-pointer">
                 {PRODUCT_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Shop Section</label>
+              <label className="detail-label">Shop Section</label>
               <select {...register('shoppingCategory', { required: true })} className="input-editorial cursor-pointer">
                 {SHOPPING_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Era (Vintage)</label>
+              <label className="detail-label">Era (Vintage)</label>
               <select {...register('era', { required: true })} className="input-editorial cursor-pointer">
                 {ERA_OPTIONS.map(e => <option key={e} value={e}>{e}</option>)}
               </select>
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Clothing Type</label>
+              <label className="detail-label">Clothing Type</label>
               <input
                 {...register('archiveType', { required: true })}
                 placeholder="e.g. Tops / Bottoms"
@@ -197,7 +195,7 @@ export function AddProduct() {
           <h2 className="hero-title text-3xl">Product Specifications</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
             <div className="space-y-2">
-              <label className="archive-label">Sizes Available</label>
+              <label className="detail-label">Sizes Available</label>
               <input
                 {...register('size')}
                 placeholder="e.g. S, M, L"
@@ -205,7 +203,7 @@ export function AddProduct() {
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Color</label>
+              <label className="detail-label mb-2 block">Color</label>
               <input
                 {...register('color')}
                 placeholder="e.g. Black, White"
@@ -213,15 +211,16 @@ export function AddProduct() {
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Brand</label>
+              <label className="detail-label mb-2 block">Brand</label>
               <input
                 {...register('brand')}
                 placeholder="e.g. Levi's"
                 className="input-editorial"
               />
             </div>
+            <span className="detail-label">Store Management</span>
             <div className="space-y-2">
-              <label className="archive-label">Material</label>
+              <label className="detail-label mb-2 block">Material</label>
               <input
                 {...register('material')}
                 placeholder="e.g. 100% Cotton"
@@ -229,13 +228,13 @@ export function AddProduct() {
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Style</label>
+              <label className="detail-label mb-2 block">Style</label>
               <select {...register('style')} className="input-editorial cursor-pointer">
                 {STYLE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Notes / Tags</label>
+              <label className="detail-label mb-2 block">Notes / Tags</label>
               <input
                 {...register('function', { required: 'Tags are required' })}
                 placeholder="e.g. Oversized, Comfort"
@@ -243,7 +242,7 @@ export function AddProduct() {
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Quantity in Stock</label>
+              <label className="detail-label">Quantity in Stock</label>
               <input
                 type="number"
                 {...register('quantity', { required: true, min: 0 })}
@@ -254,7 +253,7 @@ export function AddProduct() {
           </div>
 
           <div className="space-y-4 pt-6">
-            <label className="archive-label">Full Description</label>
+            <label className="detail-label">Full Description</label>
             <textarea
               {...register('description', { required: 'Description is required' })}
               rows={4}
@@ -270,7 +269,7 @@ export function AddProduct() {
               {...register('soldOut')}
               className="h-4 w-4 bg-transparent border-border accent-accent"
             />
-            <label htmlFor="prod-soldOut" className="archive-label cursor-pointer select-none">
+            <label htmlFor="prod-soldOut" className="detail-label cursor-pointer select-none">
               Mark as Sold Out
             </label>
           </div>
@@ -281,7 +280,7 @@ export function AddProduct() {
           <h2 className="hero-title text-3xl">Drop Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="space-y-2">
-              <label className="archive-label">Drop Name</label>
+              <label className="detail-label">Collection Name</label>
               <input
                 {...register('dropName', { required: true })}
                 placeholder="e.g. Winter Drop 2024"
@@ -289,7 +288,7 @@ export function AddProduct() {
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Drop Date</label>
+              <label className="detail-label">Drop Date</label>
               <input
                 type="date"
                 {...register('dropDate', { required: true })}

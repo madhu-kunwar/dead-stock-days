@@ -10,8 +10,8 @@ export class CreateProductDto {
   price: number;
 
   @IsString()
-  @IsNotEmpty()
-  era: string;
+  @IsOptional()
+  era?: string;
 
   @IsString()
   @IsNotEmpty()

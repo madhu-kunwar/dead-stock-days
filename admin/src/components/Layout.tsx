@@ -1,11 +1,9 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, Outlet } from 'react-router-dom'
 import { 
   LayoutDashboard, 
   Package, 
   PlusCircle, 
-  Settings, 
-  Users,
   Menu,
   X,
   LogOut,
@@ -43,7 +41,7 @@ function SidebarItem({ to, icon: Icon, label, active, onClick }: SidebarItemProp
   )
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout({ children }: { children?: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
 
@@ -132,7 +130,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </header>
 
         <div className="flex-1 animate-in fade-in duration-700">
-          {children}
+          {children || <Outlet />}
         </div>
 
         {/* Global Status Bar */}

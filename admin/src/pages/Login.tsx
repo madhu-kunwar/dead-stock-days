@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LogIn, Lock, Mail } from 'lucide-react'
-import { cn } from '../lib/utils'
 
 export function Login() {
   const [email, setEmail] = useState('')

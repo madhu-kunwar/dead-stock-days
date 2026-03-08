@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchProducts } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
 import EmailCapture from '@/components/EmailCapture';
-import { ArchiveFilter, EraFilter } from '@/types/product';
+import { CollectionFilter, EraFilter, StyleFilter } from '@/types/product';
 
 const Drops = () => {
   const { data: products = [], isLoading, error } = useQuery({
@@ -11,16 +11,20 @@ const Drops = () => {
     queryFn: fetchProducts,
   });
 
-  const [archiveFilter, setArchiveFilter] = useState<ArchiveFilter>('All');
+  const [collectionFilter, setCollectionFilter] = useState<CollectionFilter>('All');
   const [eraFilter, setEraFilter] = useState<EraFilter>('All');
+  const [styleFilter, setStyleFilter] = useState<StyleFilter>('All');
   const [showSoldOut, setShowSoldOut] = useState(true);
 
-  const archiveTypes: ArchiveFilter[] = ['All', 'T-Shirts', 'Shirts', 'Hoodies & Sweatshirts', 'Jackets & Coats', 'Jeans', 'Pants / Trousers', 'Shorts', 'Activewear', 'Underwear', 'Suits / Formal Wear', 'Accessories'];
-  const eras: EraFilter[] = ['All', '80s', '90s', '2000s'];
+  const collectionTypes: CollectionFilter[] = ['All', 'T-Shirts', 'Shirts', 'Hoodies & Sweatshirts', 'Jackets & Coats', 'Jeans', 'Pants / Trousers', 'Shorts', 'Activewear', 'Tank tops', 'Crop tops', 'Cardigan', 'Formal Wear', 'Accessories'];
+  const eras: EraFilter[] = ['All', '80s', '90s', '2000s', 'None'];
+  const styles: StyleFilter[] = ['All', 'Streetwear', 'Formal', 'Casual', 'Outerwear', 'Sporty', 'Baggy'];
 
   const filteredProducts = products.filter(product => {
-    if (archiveFilter !== 'All' && (product.productCategory !== archiveFilter && product.archiveType !== archiveFilter)) return false;
-    if (eraFilter !== 'All' && product.era !== eraFilter) return false;
+    if (collectionFilter !== 'All' && (product.productCategory !== collectionFilter && product.archiveType !== collectionFilter)) return false;
+    const effectiveEra = product.era || 'None';
+    if (eraFilter !== 'All' && effectiveEra !== eraFilter) return false;
+    if (styleFilter !== 'All' && (product.style || 'Streetwear') !== styleFilter) return false;
     if (!showSoldOut && product.soldOut) return false;
     return true;
   });
@@ -34,11 +38,11 @@ const Drops = () => {
       <section className="py-16 border-b border-border">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-3xl space-y-6">
-            <span className="archive-label">The Collection</span>
-            <h1 className="hero-title text-6xl sm:text-7xl md:text-8xl">Archive</h1>
+            <span className="detail-label">The Collection</span>
+            <h1 className="hero-title text-6xl sm:text-7xl md:text-8xl">Collection</h1>
             <p className="text-muted-foreground text-lg leading-relaxed max-w-xl">
               Each piece is sourced, verified, and presented with intention. 
-              When quantities reach zero, items are permanently archived.
+              When quantities reach zero, items are permanently removed from store.
             </p>
             <div className="flex items-center gap-6 text-sm">
               <span className="text-accent">{availableCount} Available</span>
@@ -52,16 +56,16 @@ const Drops = () => {
       <section className="py-8 border-b border-border sticky top-20 bg-background/95 backdrop-blur-sm z-30">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="flex flex-wrap items-center gap-8">
-            {/* Archive Type Filter */}
+            {/* Category Filter */}
             <div className="flex items-center gap-4">
-              <span className="archive-label">Type</span>
+              <span className="detail-label">Type</span>
               <div className="flex flex-wrap gap-2">
-                {archiveTypes.map(type => (
+                {collectionTypes.map(type => (
                   <button
                     key={type}
-                    onClick={() => setArchiveFilter(type)}
+                    onClick={() => setCollectionFilter(type)}
                     className={`px-3 py-1.5 text-xs tracking-widest uppercase transition-colors ${
-                      archiveFilter === type
+                      collectionFilter === type
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-muted text-muted-foreground hover:text-foreground'
                     }`}
@@ -74,7 +78,7 @@ const Drops = () => {
 
             {/* Era Filter */}
             <div className="flex items-center gap-4">
-              <span className="archive-label">Era</span>
+              <span className="detail-label">Era</span>
               <div className="flex flex-wrap gap-2">
                 {eras.map(era => (
                   <button
@@ -92,6 +96,26 @@ const Drops = () => {
               </div>
             </div>
 
+            {/* Style Filter */}
+            <div className="flex items-center gap-4">
+              <span className="detail-label">Style</span>
+              <div className="flex flex-wrap gap-2">
+                {styles.map(style => (
+                  <button
+                    key={style}
+                    onClick={() => setStyleFilter(style)}
+                    className={`px-3 py-1.5 text-xs tracking-widest uppercase transition-colors ${
+                      styleFilter === style
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {style}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Show Sold Out Toggle */}
             <label className="flex items-center gap-2 cursor-pointer ml-auto">
               <input
@@ -100,7 +124,7 @@ const Drops = () => {
                 onChange={(e) => setShowSoldOut(e.target.checked)}
                 className="w-4 h-4 accent-accent bg-muted border-border"
               />
-              <span className="text-xs tracking-wide text-muted-foreground">Show Archived</span>
+              <span className="text-xs tracking-wide text-muted-foreground">Show Sold Out</span>
             </label>
           </div>
         </div>
@@ -119,7 +143,7 @@ const Drops = () => {
             <div className="text-center py-24">
               <p className="text-muted-foreground text-lg">No pieces match your filters.</p>
               <button 
-                onClick={() => { setArchiveFilter('All'); setEraFilter('All'); setShowSoldOut(true); }}
+                onClick={() => { setCollectionFilter('All'); setEraFilter('All'); setStyleFilter('All'); setShowSoldOut(true); }}
                 className="mt-4 nav-link"
               >
                 Clear Filters

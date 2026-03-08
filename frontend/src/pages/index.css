@@ -42,9 +42,9 @@
     --destructive: 0 40% 35%;
     --destructive-foreground: 40 20% 92%;
 
-    /* Archive red - nostalgic accent */
-    --archive-red: 0 50% 40%;
-    --archive-red-foreground: 40 20% 92%;
+    /* Collection red - nostalgic accent */
+    --collection-red: 0 50% 40%;
+    --collection-red-foreground: 40 20% 92%;
 
     /* Exclusive gold */
     --exclusive: 45 50% 55%;
@@ -165,8 +165,8 @@
     font-family: 'Bebas Neue', sans-serif;
   }
 
-  /* Archive labels */
-  .archive-label {
+  /* Detail labels */
+  .detail-label {
     @apply text-xs tracking-[0.25em] uppercase font-medium;
     color: hsl(var(--muted-foreground));
   }
@@ -223,18 +223,18 @@
     background: hsl(var(--muted-foreground));
   }
 
-  /* Archive card hover effect */
-  .archive-card {
+  /* Collection card hover effect */
+  .editorial-card {
     @apply relative transition-all duration-500;
   }
 
-  .archive-card::before {
+  .editorial-card::before {
     @apply absolute inset-0 opacity-0 transition-opacity duration-500;
     content: '';
     background: linear-gradient(to top, hsl(var(--background)) 0%, transparent 50%);
   }
 
-  .archive-card:hover::before {
+  .editorial-card:hover::before {
     @apply opacity-100;
   }
 

@@ -77,7 +77,7 @@ const Admin = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-12 pb-6 border-b border-border">
           <div>
-            <span className="archive-label">Management</span>
+            <span className="detail-label">Management</span>
             <h1 className="hero-title text-5xl sm:text-6xl md:text-7xl">Admin</h1>
             <p className="text-muted-foreground mt-4">
               Manage your products and collections.
@@ -95,17 +95,17 @@ const Admin = () => {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-muted p-6 border border-border">
-            <span className="archive-label">Total Items</span>
+            <span className="detail-label">Total Items</span>
             <p className="font-display text-4xl mt-2">{products.length}</p>
           </div>
           <div className="bg-muted p-6 border border-border">
-            <span className="archive-label">In Stock</span>
+            <span className="detail-label">In Stock</span>
             <p className="font-display text-4xl mt-2 text-accent">
               {products.filter(p => !p.soldOut).length}
             </p>
           </div>
           <div className="bg-muted p-6 border border-border">
-            <span className="archive-label">Sold Out</span>
+            <span className="detail-label">Sold Out</span>
             <p className="font-display text-4xl mt-2 text-destructive">
               {products.filter(p => p.soldOut).length}
             </p>
@@ -118,14 +118,14 @@ const Admin = () => {
             <table className="w-full">
               <thead className="bg-muted border-b border-border">
                 <tr>
-                  <th className="px-6 py-4 text-left archive-label">Image</th>
-                  <th className="px-6 py-4 text-left archive-label">Name</th>
-                  <th className="px-6 py-4 text-left archive-label">Price</th>
-                  <th className="px-6 py-4 text-left archive-label">Era</th>
-                  <th className="px-6 py-4 text-left archive-label">Category</th>
-                  <th className="px-6 py-4 text-left archive-label">Stock</th>
-                  <th className="px-6 py-4 text-left archive-label">Status</th>
-                  <th className="px-6 py-4 text-left archive-label">Actions</th>
+                  <th className="px-6 py-4 text-left detail-label">Image</th>
+                  <th className="px-6 py-4 text-left detail-label">Name</th>
+                  <th className="px-6 py-4 text-left detail-label">Price</th>
+                  <th className="px-6 py-4 text-left detail-label">Era</th>
+                  <th className="px-6 py-4 text-left detail-label">Category</th>
+                  <th className="px-6 py-4 text-left detail-label">Stock</th>
+                  <th className="px-6 py-4 text-left detail-label">Status</th>
+                  <th className="px-6 py-4 text-left detail-label">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -210,7 +210,7 @@ const ProductFormModal = ({
   const [formData, setFormData] = useState<Omit<Product, 'id'>>({
     name: product?.name || '',
     price: product?.price || 0,
-    era: product?.era || '90s',
+    era: product?.era || 'None',
     archiveType: product?.archiveType || 'Tops',
     productCategory: product?.productCategory || 'T-Shirts',
     shoppingCategory: product?.shoppingCategory || 'New Arrivals',
@@ -225,18 +225,18 @@ const ProductFormModal = ({
     soldOut: product?.soldOut || false,
     image: product?.image || '',
     dropDate: product?.dropDate || new Date().toISOString().split('T')[0],
-    dropName: product?.dropName || 'Archive 001',
+    dropName: product?.dropName || 'Drop 001',
   });
 
   const PRODUCT_CATEGORIES = [
     'T-Shirts', 'Shirts', 'Hoodies & Sweatshirts', 'Jackets & Coats', 
-    'Jeans', 'Pants / Trousers', 'Shorts', 'Activewear', 'Underwear', 'Suits / Formal Wear'
+    'Jeans', 'Pants / Trousers', 'Shorts', 'Activewear', 'Tank tops', 'Crop tops', 'Cardigan', 'Formal Wear', 'Accessories'
   ];
   const SHOPPING_CATEGORIES = [
     'New Arrivals', 'Best Sellers', 'Trending', 'Sale / Discount', 
     'Summer', 'Winter', 'Limited Edition'
   ];
-  const STYLE_OPTIONS = ['Streetwear', 'Formal', 'Casual'];
+  const STYLE_OPTIONS = ['Streetwear', 'Formal', 'Casual', 'Outerwear', 'Sporty', 'Baggy'];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -258,7 +258,7 @@ const ProductFormModal = ({
         <form onSubmit={handleSubmit} className="p-6 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-2">
-              <label className="archive-label">Product Name</label>
+              <label className="detail-label">Product Name</label>
               <input
                 type="text"
                 value={formData.name}
@@ -270,7 +270,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Price (Rs.)</label>
+              <label className="detail-label">Price (Rs.)</label>
               <input
                 type="number"
                 value={formData.price}
@@ -282,13 +282,14 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Vintage Era</label>
+              <label className="detail-label">Vintage Era</label>
               <select
                 value={formData.era}
                 onChange={(e) => setFormData({ ...formData, era: e.target.value })}
                 className="input-editorial w-full"
                 required
               >
+                <option value="None">None</option>
                 <option value="80s">80s</option>
                 <option value="90s">90s</option>
                 <option value="2000s">2000s</option>
@@ -296,7 +297,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Product Category</label>
+              <label className="detail-label">Product Category</label>
               <select
                 value={formData.productCategory}
                 onChange={(e) => setFormData({ ...formData, productCategory: e.target.value })}
@@ -308,7 +309,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Shop Section</label>
+              <label className="detail-label">Shop Section</label>
               <select
                 value={formData.shoppingCategory}
                 onChange={(e) => setFormData({ ...formData, shoppingCategory: e.target.value })}
@@ -320,7 +321,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Style</label>
+              <label className="detail-label">Style</label>
               <select
                 value={formData.style}
                 onChange={(e) => setFormData({ ...formData, style: e.target.value })}
@@ -332,7 +333,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Available Sizes</label>
+              <label className="detail-label">Available Sizes</label>
               <input
                 type="text"
                 value={formData.size}
@@ -343,7 +344,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Color</label>
+              <label className="detail-label">Color</label>
               <input
                 type="text"
                 value={formData.color}
@@ -354,7 +355,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Brand</label>
+              <label className="detail-label">Brand</label>
               <input
                 type="text"
                 value={formData.brand}
@@ -365,7 +366,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Material</label>
+              <label className="detail-label">Material</label>
               <input
                 type="text"
                 value={formData.material}
@@ -376,7 +377,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Stock Quantity</label>
+              <label className="detail-label">Stock Quantity</label>
               <input
                 type="number"
                 value={formData.quantity}
@@ -388,7 +389,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Drop Name</label>
+              <label className="detail-label">Collection Name</label>
               <input
                 type="text"
                 value={formData.dropName}
@@ -401,7 +402,7 @@ const ProductFormModal = ({
           </div>
 
           <div className="space-y-2">
-            <label className="archive-label">Product Image URL</label>
+            <label className="detail-label">Product Image URL</label>
             <input
               type="text"
               value={formData.image}
@@ -413,7 +414,7 @@ const ProductFormModal = ({
           </div>
 
           <div className="space-y-2">
-            <label className="archive-label">Short Description</label>
+            <label className="detail-label">Short Description</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -431,7 +432,7 @@ const ProductFormModal = ({
               onChange={(e) => setFormData({ ...formData, soldOut: e.target.checked })}
               className="w-4 h-4 accent-accent"
             />
-            <label htmlFor="soldOut" className="archive-label cursor-pointer text-xs">
+            <label htmlFor="soldOut" className="detail-label cursor-pointer text-xs">
               Mark as Sold Out
             </label>
           </div>

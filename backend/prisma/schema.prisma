@@ -10,7 +10,7 @@ model Product {
   id          String   @id @default(uuid())
   name        String
   price       Float
-  era         String
+  era         String?
   archiveType      String
   productCategory  String?
   shoppingCategory String?

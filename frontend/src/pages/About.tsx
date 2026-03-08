@@ -8,7 +8,7 @@ const About = () => {
       <section className="py-24 md:py-32 border-b border-border">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-4xl space-y-8">
-            <span className="archive-label">Our Philosophy</span>
+            <span className="detail-label">Our Philosophy</span>
             <h1 className="hero-title text-6xl sm:text-7xl md:text-8xl lg:text-9xl">
               Against<br />The<br />Mainstream
             </h1>
@@ -21,7 +21,7 @@ const About = () => {
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div className="space-y-6">
-              <span className="archive-label">The Manifesto</span>
+              <span className="detail-label">The Manifesto</span>
               <h2 className="section-title">Why We Exist</h2>
             </div>
             <div className="space-y-8 text-lg text-muted-foreground leading-relaxed">
@@ -38,7 +38,7 @@ const About = () => {
               </p>
               <p>
                 We limit each item to 2–3 pieces maximum. No exceptions. No restocks. 
-                When a piece is gone, it's permanently archived. This isn't artificial 
+                When a piece is gone, it's permanently removed from store. This isn't artificial 
                 scarcity—it's the truth of authentic dead stock.
               </p>
             </div>
@@ -51,7 +51,7 @@ const About = () => {
         <div className="container mx-auto px-6 lg:px-12">
           <div className="space-y-16">
             <div className="space-y-2">
-              <span className="archive-label">Core Values</span>
+              <span className="detail-label">Core Values</span>
               <h2 className="section-title">What We Believe</h2>
             </div>
 
@@ -61,7 +61,7 @@ const About = () => {
                 <h3 className="font-display text-2xl tracking-wide">Scarcity Is Truth</h3>
                 <p className="text-muted-foreground leading-relaxed">
                   Real exclusivity isn't manufactured. It exists because authentic 
-                  archive pieces are finite by nature.
+                  exclusive pieces are finite by nature.
                 </p>
               </div>
               <div className="space-y-4">
@@ -90,7 +90,7 @@ const About = () => {
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-3xl mx-auto space-y-12">
             <div className="text-center space-y-4">
-              <span className="archive-label">The Process</span>
+              <span className="detail-label">The Process</span>
               <h2 className="section-title">How To Acquire</h2>
             </div>
 
@@ -98,9 +98,9 @@ const About = () => {
               <div className="flex gap-6 items-start">
                 <span className="font-display text-3xl text-accent shrink-0">01</span>
                 <div className="space-y-2">
-                  <h3 className="font-display text-xl tracking-wide">Browse The Archive</h3>
+                  <h3 className="font-display text-xl tracking-wide">Explore Collection</h3>
                   <p className="text-muted-foreground">
-                    Explore our current drop and saved archives. Each piece includes 
+                    Explore our current drop and current inventory. Each piece includes 
                     detailed descriptions, era information, and availability.
                   </p>
                 </div>
@@ -129,7 +129,7 @@ const About = () => {
 
             <div className="text-center pt-8">
               <Link to="/drops" className="btn-request">
-                Enter The Archive
+                Enter Shop
               </Link>
             </div>
           </div>

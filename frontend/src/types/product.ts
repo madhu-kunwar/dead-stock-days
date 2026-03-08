@@ -2,7 +2,7 @@ export interface Product {
   id: string;
   name: string;
   price: number;
-  era: string;
+  era?: string;
   archiveType: string;
   productCategory?: string;
   shoppingCategory?: string;
@@ -20,5 +20,6 @@ export interface Product {
   dropName: string;
 }
 
-export type ArchiveFilter = 'All' | 'T-Shirts' | 'Shirts' | 'Hoodies & Sweatshirts' | 'Jackets & Coats' | 'Jeans' | 'Pants / Trousers' | 'Shorts' | 'Activewear' | 'Underwear' | 'Suits / Formal Wear' | 'Accessories';
-export type EraFilter = 'All' | '90s' | '2000s' | '80s';
+export type CollectionFilter = 'All' | 'T-Shirts' | 'Shirts' | 'Hoodies & Sweatshirts' | 'Jackets & Coats' | 'Jeans' | 'Pants / Trousers' | 'Shorts' | 'Activewear' | 'Tank tops' | 'Crop tops' | 'Cardigan' | 'Formal Wear' | 'Accessories';
+export type StyleFilter = 'All' | 'Streetwear' | 'Formal' | 'Casual' | 'Outerwear' | 'Sporty' | 'Baggy';
+export type EraFilter = 'All' | '90s' | '2000s' | '80s' | 'None';
