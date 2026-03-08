@@ -14,7 +14,7 @@ const Drops = () => {
   const [collectionFilter, setCollectionFilter] = useState<CollectionFilter>('All');
   const [eraFilter, setEraFilter] = useState<EraFilter>('All');
   const [styleFilter, setStyleFilter] = useState<StyleFilter>('All');
-  const [showSoldOut, setShowSoldOut] = useState(true);
+  const [showSoldOut, setShowSoldOut] = useState(false);
 
   const collectionTypes: CollectionFilter[] = ['All', 'T-Shirts', 'Shirts', 'Hoodies & Sweatshirts', 'Jackets & Coats', 'Jeans', 'Pants / Trousers', 'Shorts', 'Activewear', 'Tank tops', 'Crop tops', 'Cardigan', 'Formal Wear', 'Accessories'];
   const eras: EraFilter[] = ['All', '80s', '90s', '2000s', 'None'];
@@ -143,7 +143,7 @@ const Drops = () => {
             <div className="text-center py-24">
               <p className="text-muted-foreground text-lg">No pieces match your filters.</p>
               <button 
-                onClick={() => { setCollectionFilter('All'); setEraFilter('All'); setStyleFilter('All'); setShowSoldOut(true); }}
+                onClick={() => { setCollectionFilter('All'); setEraFilter('All'); setStyleFilter('All'); setShowSoldOut(false); }}
                 className="mt-4 nav-link"
               >
                 Clear Filters

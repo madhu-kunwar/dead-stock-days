@@ -91,9 +91,9 @@ const Index = () => {
     : [];
 
   // If no "Featured" tag exists, just take top 6
-  const displayFeatured = featuredProducts.length > 0 ? featuredProducts : products.slice(0, 6);
+  const displayFeatured = featuredProducts.length > 0 ? featuredProducts : products.filter(p => !p.soldOut).slice(0, 6);
 
-  const allProducts = products;
+  const allProducts = products.filter(p => !p.soldOut);
   const currentVisibleProducts = allProducts.slice(0, visibleCount);
 
   const handleShowMore = () => {
