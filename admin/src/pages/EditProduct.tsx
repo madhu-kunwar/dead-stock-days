@@ -4,6 +4,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form'
 import { Loader2, ArrowLeft, CheckCircle2, Trash2 } from 'lucide-react'
 import { productApi, type CreateProductPayload } from '../lib/api'
 import { CloudinaryUploader } from '../components/CloudinaryUploader'
+import { MultiImageUploader } from '../components/MultiImageUploader'
 
 interface FormFields {
   name: string
@@ -23,6 +24,7 @@ interface FormFields {
   featured: boolean
   soldOut: boolean
   image: string
+  images: string
   dropDate: string
   dropName: string
 }
@@ -69,6 +71,7 @@ export function EditProduct() {
         featured: !!product.featured,
         soldOut: !!product.soldOut,
         image: product.image || '',
+        images: product.images || '[]',
         dropDate: product.dropDate,
         dropName: product.dropName,
       })
@@ -150,14 +153,26 @@ export function EditProduct() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
-        {/* Photo Upload */}
-        <div className="bg-card border border-border p-8">
-          <span className="detail-label block mb-6">Product Image</span>
-          <CloudinaryUploader
-            value={watch('image')}
-            onChange={(url) => setValue('image', url)}
-          />
-          {errors.image && <p className="text-destructive text-xs mt-2 uppercase tracking-widest">An image is required.</p>}
+        <div className="bg-card border border-border p-8 space-y-12">
+          <div className="flex flex-col gap-6">
+            <div>
+              <span className="detail-label block mb-6">Main Display Image</span>
+              <CloudinaryUploader
+                value={watch('image')}
+                onChange={(url) => setValue('image', url)}
+              />
+              {errors.image && <p className="text-destructive text-xs mt-2 uppercase tracking-widest">An image is required.</p>}
+            </div>
+          </div>
+
+          <div className="space-y-6 pt-12 border-t border-border/50">
+            <h2 className="hero-title text-3xl">Gallery Images</h2>
+            <p className="text-sm text-muted-foreground uppercase tracking-widest">Manage additional shots of the piece.</p>
+            <MultiImageUploader
+              value={watch('images')}
+              onChange={(json) => setValue('images', json)}
+            />
+          </div>
         </div>
 
         {/* Product Info */}

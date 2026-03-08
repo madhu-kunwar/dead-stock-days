@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
 import { Heart, BookmarkPlus, ArrowLeft, MessageCircle } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProductById, fetchProducts } from '@/lib/api';
@@ -6,11 +7,13 @@ import { useFavorites } from '@/hooks/useFavorites';
 import { useBucketlist } from '@/hooks/useBucketlist';
 import EmailCapture from '@/components/EmailCapture';
 import ProductCard from '@/components/ProductCard';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { toggleFavorite, isFavorite } = useFavorites();
   const { toggleBucketlist, isInBucketlist } = useBucketlist();
+  const [activeImage, setActiveImage] = useState(0);
 
   const { data: product, isLoading: isProductLoading } = useQuery({
     queryKey: ['product', id],
@@ -72,20 +75,48 @@ const ProductDetail = () => {
       <section className="pb-24">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
-            {/* Image */}
-            <div className="editorial-image bg-muted">
-              <img 
-                src={product.image} 
-                alt={product.name}
-                className={product.soldOut ? 'grayscale opacity-70' : ''}
-              />
-              {product.soldOut ? (
-                <div className="absolute top-4 sm:top-6 left-4 sm:left-6">
-                  <span className="sold-out-badge text-xs sm:text-sm">Out of Stock</span>
-                </div>
-              ) : (
-                <div className="absolute top-4 sm:top-6 left-4 sm:left-6">
-                  <span className="quantity-badge text-xs sm:text-sm">Only {product.quantity} Remaining</span>
+            {/* Gallery Column */}
+            <div className="space-y-6">
+              <div className="editorial-image bg-muted aspect-[4/5] relative overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.img 
+                    key={activeImage}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    src={product.images && product.images.length > activeImage ? product.images[activeImage] : product.image} 
+                    alt={product.name}
+                    className={`w-full h-full object-cover ${product.soldOut ? 'grayscale opacity-70' : ''}`}
+                  />
+                </AnimatePresence>
+                
+                {product.soldOut ? (
+                  <div className="absolute top-4 sm:top-6 left-4 sm:left-6 z-10">
+                    <span className="sold-out-badge text-xs sm:text-sm">Out of Stock</span>
+                  </div>
+                ) : (
+                  <div className="absolute top-4 sm:top-6 left-4 sm:left-6 z-10">
+                    <span className="quantity-badge text-xs sm:text-sm">Only {product.quantity} Remaining</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Thumbnails */}
+              {product.images && product.images.length > 1 && (
+                <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 mask-fade-edges">
+                  {product.images.map((url, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImage(idx)}
+                      className={`
+                        relative flex-shrink-0 w-20 sm:w-24 aspect-[4/5] border transition-all duration-300
+                        ${activeImage === idx ? 'border-accent p-1' : 'border-border grayscale hover:grayscale-0'}
+                      `}
+                    >
+                      <img src={url} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
                 </div>
               )}
             </div>

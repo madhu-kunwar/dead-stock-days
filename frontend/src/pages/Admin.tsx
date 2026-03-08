@@ -243,6 +243,7 @@ const ProductFormModal = ({
     featured: product?.featured || false,
     soldOut: product?.soldOut || false,
     image: product?.image || '',
+    images: product?.images || [],
     dropDate: product?.dropDate || new Date().toISOString().split('T')[0],
     dropName: product?.dropName || 'Drop 001',
   });

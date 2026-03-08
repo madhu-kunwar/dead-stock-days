@@ -25,6 +25,7 @@ model Product {
   featured    Boolean  @default(false)
   soldOut     Boolean  @default(false)
   image       String
+  images      String   @default("[]")
   dropDate         String
   dropName         String
   createdAt        DateTime @default(now())

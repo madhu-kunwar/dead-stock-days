@@ -69,6 +69,9 @@ export class CreateProductDto {
   @IsNotEmpty()
   image: string;
 
+  @IsOptional()
+  images?: string;
+
   @IsString()
   @IsNotEmpty()
   dropDate: string;

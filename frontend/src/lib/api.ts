@@ -7,7 +7,11 @@ export const fetchProducts = async (): Promise<Product[]> => {
   if (!response.ok) {
     throw new Error('Failed to fetch products');
   }
-  return response.json();
+  const data = await response.json();
+  return data.map((p: any) => ({
+    ...p,
+    images: typeof p.images === 'string' ? JSON.parse(p.images) : (p.images || [])
+  }));
 };
 
 export const fetchProductById = async (id: string): Promise<Product> => {
@@ -15,7 +19,11 @@ export const fetchProductById = async (id: string): Promise<Product> => {
   if (!response.ok) {
     throw new Error('Failed to fetch product');
   }
-  return response.json();
+  const data = await response.json();
+  return {
+    ...data,
+    images: typeof data.images === 'string' ? JSON.parse(data.images) : (data.images || [])
+  };
 };
 
 export const createProduct = async (product: Omit<Product, 'id'>): Promise<Product> => {

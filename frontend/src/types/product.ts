@@ -17,6 +17,7 @@ export interface Product {
   featured?: boolean;
   soldOut: boolean;
   image: string;
+  images: string[];
   dropDate: string;
   dropName: string;
 }
