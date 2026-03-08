@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { Upload, X, Loader2, GripVertical, ChevronUp, ChevronDown } from 'lucide-react'
 import { uploadToCloudinary } from '../lib/api'
 
@@ -45,6 +45,17 @@ export function MultiImageUploader({ value, onChange }: MultiImageUploaderProps)
     const [movedItem] = newImages.splice(index, 1)
     newImages.splice(targetIndex, 0, movedItem)
     onChange(JSON.stringify(newImages))
+  }
+
+  const [urlInput, setUrlInput] = useState('')
+  const [showUrlInput, setShowUrlInput] = useState(false)
+
+  const addImageUrl = () => {
+    if (!urlInput.trim()) return
+    const newImages = [...images, urlInput.trim()]
+    onChange(JSON.stringify(newImages))
+    setUrlInput('')
+    setShowUrlInput(false)
   }
 
   return (
@@ -113,7 +124,36 @@ export function MultiImageUploader({ value, onChange }: MultiImageUploaderProps)
             onChange={handleUpload}
           />
         </label>
+
+        {/* URL Input Toggle Button */}
+        <button
+          type="button"
+          onClick={() => setShowUrlInput(!showUrlInput)}
+          className="border-2 border-dashed border-border aspect-square flex flex-col items-center justify-center gap-3 hover:border-accent hover:bg-accent/5 transition-all"
+        >
+          <GripVertical className="w-6 h-6 text-muted-foreground rotate-90" />
+          <span className="text-[10px] detail-label">Paste URL</span>
+        </button>
       </div>
+
+      {showUrlInput && (
+        <div className="flex gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+          <input
+            type="text"
+            value={urlInput}
+            onChange={(e) => setUrlInput(e.target.value)}
+            placeholder="Paste direct image URL here..."
+            className="input-editorial flex-1 text-xs"
+          />
+          <button
+            type="button"
+            onClick={addImageUrl}
+            className="btn-request px-6 py-2 text-[10px] uppercase tracking-widest"
+          >
+            Add Link
+          </button>
+        </div>
+      )}
       
       <p className="text-[10px] text-muted-foreground uppercase tracking-widest leading-relaxed">
         Tip: The first image in the gallery will be used for secondary views. Drag and drop ordering coming soon. 

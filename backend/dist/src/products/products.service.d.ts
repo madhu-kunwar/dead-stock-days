@@ -22,6 +22,7 @@ export declare class ProductsService {
         featured: boolean;
         soldOut: boolean;
         image: string;
+        images: string;
         dropDate: string;
         dropName: string;
         createdAt: Date;
@@ -46,6 +47,7 @@ export declare class ProductsService {
         featured: boolean;
         soldOut: boolean;
         image: string;
+        images: string;
         dropDate: string;
         dropName: string;
         createdAt: Date;
@@ -70,6 +72,7 @@ export declare class ProductsService {
         featured: boolean;
         soldOut: boolean;
         image: string;
+        images: string;
         dropDate: string;
         dropName: string;
         createdAt: Date;
@@ -94,6 +97,7 @@ export declare class ProductsService {
         featured: boolean;
         soldOut: boolean;
         image: string;
+        images: string;
         dropDate: string;
         dropName: string;
         createdAt: Date;
@@ -118,6 +122,7 @@ export declare class ProductsService {
         featured: boolean;
         soldOut: boolean;
         image: string;
+        images: string;
         dropDate: string;
         dropName: string;
         createdAt: Date;

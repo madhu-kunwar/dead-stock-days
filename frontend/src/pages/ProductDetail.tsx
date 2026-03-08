@@ -81,6 +81,9 @@ const ProductDetail = () => {
     }, 2000);
   };
 
+  // Combine main image and gallery images
+  const allImages = [product.image, ...(product.images || [])].filter(Boolean);
+
   return (
     <main className="pt-20">
       {/* Back Link */}
@@ -105,7 +108,7 @@ const ProductDetail = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
-                    src={product.images && product.images.length > activeImage ? product.images[activeImage] : product.image} 
+                    src={allImages[activeImage] || product.image} 
                     alt={product.name}
                     className={`w-full h-full object-cover ${product.soldOut ? 'grayscale opacity-70' : ''}`}
                   />
@@ -123,9 +126,9 @@ const ProductDetail = () => {
               </div>
 
               {/* Thumbnails */}
-              {product.images && product.images.length > 1 && (
+              {allImages.length > 1 && (
                 <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 mask-fade-edges">
-                  {product.images.map((url, idx) => (
+                  {allImages.map((url, idx) => (
                     <button
                       key={idx}
                       onClick={() => setActiveImage(idx)}

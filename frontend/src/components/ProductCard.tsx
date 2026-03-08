@@ -20,15 +20,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <img 
             src={product.image} 
             alt={product.name}
-            className={`transition-opacity duration-700 group-hover:duration-500 ${product.soldOut ? 'grayscale opacity-70' : ''} ${product.images && product.images.length > 0 ? 'group-hover:opacity-0' : ''}`}
+            className={`transition-opacity duration-700 ${product.soldOut ? 'grayscale opacity-70' : ''}`}
           />
-          {product.images && product.images.length > 0 && (
-            <img 
-              src={product.images[0]} 
-              alt={product.name}
-              className={`absolute top-0 left-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-all duration-700 group-hover:duration-500 ${product.soldOut ? 'grayscale opacity-70' : ''}`}
-            />
-          )}
           
           {/* Status Badge */}
           <div className="absolute top-4 left-4">

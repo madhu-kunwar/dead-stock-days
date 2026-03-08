@@ -54,7 +54,7 @@ const Drops = () => {
       </section>
 
       {/* Filters Section */}
-      <section className="md:sticky top-20 bg-background/95 backdrop-blur-sm z-30 border-b border-border">
+      <section className=" border-b border-border">
         <div className="container mx-auto px-6 lg:px-12">
           {/* Main Category Filter - Horizontal Scroll */}
           <div className="flex items-center border-b border-border/50 relative">
@@ -82,7 +82,12 @@ const Drops = () => {
             </div>
           </div>
 
-          {/* Secondary Filters Bar */}
+        </div>
+      </section>
+
+      {/* Secondary Filters Bar (Sticky) */}
+      <div className="md:sticky top-20 bg-background/95 backdrop-blur-sm z-30 border-b border-border -mt-px">
+        <div className="container mx-auto px-6 lg:px-12">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between py-4 sm:py-6 gap-4 sm:gap-6">
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-12">
               {/* Era Selection */}
@@ -156,7 +161,7 @@ const Drops = () => {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Products Grid */}
       <section className="py-16">

@@ -125,13 +125,31 @@ export function AddProduct() {
                 value={watch('image')}
                 onChange={(url) => setValue('image', url)}
               />
-              {errors.image && <p className="text-destructive text-xs mt-2 uppercase tracking-widest">Please upload a main image.</p>}
+              
+              <div className="mt-8 pt-8 border-t border-border/30">
+                <label className="detail-label block mb-4 flex items-center gap-2">
+                  <span className="h-px w-4 bg-accent" />
+                  Or Paste Direct Image URL
+                </label>
+                <input
+                  type="text"
+                  {...register('image', { required: 'An image or direct URL is required' })}
+                  placeholder="https://images.unsplash.com/photo-..."
+                  className="input-editorial text-xs"
+                />
+                <p className="text-[10px] text-muted-foreground mt-2 uppercase tracking-widest leading-relaxed">
+                  Useful if your image is already hosted elsewhere.
+                </p>
+              </div>
+              
+              {errors.image && <p className="text-destructive text-xs mt-2 uppercase tracking-widest">{errors.image.message}</p>}
             </div>
           </div>
 
           <div className="space-y-6 pt-12 border-t border-border/50">
             <h2 className="hero-title text-3xl">Gallery Images</h2>
             <p className="text-sm text-muted-foreground uppercase tracking-widest">Add more shots of the piece for the detail page.</p>
+            <input type="hidden" {...register('images')} />
             <MultiImageUploader
               value={watch('images')}
               onChange={(json) => setValue('images', json)}

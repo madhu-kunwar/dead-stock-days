@@ -16,6 +16,7 @@ export declare class CreateProductDto {
     featured?: boolean;
     soldOut?: boolean;
     image: string;
+    images?: string;
     dropDate: string;
     dropName: string;
 }
