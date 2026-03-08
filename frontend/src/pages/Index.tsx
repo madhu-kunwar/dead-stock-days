@@ -253,8 +253,11 @@ const Index = () => {
                         Every garment passed through our selection process. Extremely rare, unworn vintage and curated items from global fashion periods.
                     </p> */}
                 </div>
-                <div className="text-right">
+                <div className="flex flex-col items-start md:items-end gap-6">
                     <span className="font-display text-lg md:text-3xl leading-none text-muted-foreground opacity-10 uppercase block">Total Items: {products.length}</span>
+                    <Link to="/drops" className="nav-link exclusive-border pb-1 text-xs uppercase tracking-[0.2em] opacity-60 hover:opacity-100 transition-opacity">
+                        View Full Archive →
+                    </Link>
                 </div>
             </div>
         </div>
@@ -294,8 +297,8 @@ const Index = () => {
                 </AnimatePresence>
               </motion.div>
 
-              {hasMore && (
-                <div className="mt-24 flex justify-center border-t border-border pt-24">
+              <div className="mt-24 flex flex-col items-center gap-12 border-t border-border pt-24 text-center">
+                {hasMore && (
                   <button 
                     onClick={handleShowMore}
                     className="group relative w-full sm:w-auto px-12 sm:px-24 py-5 sm:py-6 border border-border hover:bg-foreground hover:text-background transition-colors duration-500 overflow-hidden"
@@ -303,8 +306,15 @@ const Index = () => {
                     <span className="relative z-10 detail-label uppercase text-xs sm:text-sm tracking-[0.3em]">Load More Pieces</span>
                     <div className="absolute bottom-0 left-0 h-1 bg-accent w-0 group-hover:w-full transition-all duration-700" />
                   </button>
-                </div>
-              )}
+                )}
+                
+                <Link 
+                  to="/drops" 
+                  className="btn-request w-full sm:w-auto px-16 py-6 uppercase tracking-[0.4em] text-xs"
+                >
+                  Explore All Pieces
+                </Link>
+              </div>
               
               {!hasMore && allProducts.length > 0 && (
                 <div className="mt-24 text-center py-12 border-y border-border/10">

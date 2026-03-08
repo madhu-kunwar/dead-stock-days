@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
-import { Heart, BookmarkPlus, ArrowLeft, MessageCircle } from 'lucide-react';
+import { Heart, BookmarkPlus, ArrowLeft, MessageCircle, Instagram, Check, Copy } from 'lucide-react';
+import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProductById, fetchProducts } from '@/lib/api';
 import { useFavorites } from '@/hooks/useFavorites';
@@ -57,15 +58,28 @@ const ProductDetail = () => {
     })
     .slice(0, 4);
 
-  const whatsappMessage = encodeURIComponent(
-    `Hi Dead Stock Days, I'm interested in acquiring the ${product.name} (Ref: ${product.id}).\n\n` +
+  const inquiryText = `Hi Dead Stock Days, I'm interested in acquiring the ${product.name} (Ref: ${product.id}).\n\n` +
     `• Price: Rs. ${product.price}\n` +
     `• Size: ${product.size || 'Unisex'}\n` +
     `• Collection: ${product.dropName}\n\n` +
-    `Can you please confirm if this piece is still available?`
-  );
+    `Can you please confirm if this piece is still available?`;
+
+  const whatsappMessage = encodeURIComponent(inquiryText);
 
   const instagramLink = `https://www.instagram.com/direct/t/17845963320653796/`;
+
+  const handleInstagramInquiry = () => {
+    navigator.clipboard.writeText(inquiryText);
+    toast.success('Inquiry copied to clipboard', {
+      description: 'Opening Instagram DM - just paste and send!',
+      icon: <Check className="w-4 h-4" />,
+    });
+    
+    // Slight delay to ensure toast is visible before redirect if on mobile
+    setTimeout(() => {
+      window.open(instagramLink, '_blank');
+    }, 2000);
+  };
 
   return (
     <main className="pt-20">
@@ -211,14 +225,13 @@ const ProductDetail = () => {
                     <MessageCircle className="w-5 h-5" />
                     Request to Buy via WhatsApp
                   </a>
-                  <a 
-                    href={instagramLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-outline w-full flex items-center justify-center gap-2"
+                  <button 
+                    onClick={handleInstagramInquiry}
+                    className="btn-outline w-full flex items-center justify-center gap-3 transition-all duration-300 group"
                   >
+                    <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
                     DM on Instagram
-                  </a>
+                  </button>
                   <button
                     onClick={() => toggleFavorite(product.id)}
                     className={`btn-outline w-full ${isFavorite(product.id) ? 'border-accent text-accent' : ''}`}

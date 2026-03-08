@@ -54,7 +54,7 @@ const Drops = () => {
       </section>
 
       {/* Filters Section */}
-      <section className="sticky top-20 bg-background/95 backdrop-blur-sm z-30 border-b border-border">
+      <section className="md:sticky top-20 bg-background/95 backdrop-blur-sm z-30 border-b border-border">
         <div className="container mx-auto px-6 lg:px-12">
           {/* Main Category Filter - Horizontal Scroll */}
           <div className="flex items-center border-b border-border/50 relative">

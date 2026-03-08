@@ -27,6 +27,14 @@ export function Products() {
       queryClient.invalidateQueries({ queryKey: ['products'] })
     },
   })
+  
+  const toggleSoldOutMutation = useMutation({
+    mutationFn: ({ id, soldOut }: { id: string; soldOut: boolean }) =>
+      productApi.update(id, { soldOut }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] })
+    },
+  })
 
   const handleDelete = (id: string, name: string) => {
     if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
@@ -157,11 +165,17 @@ export function Products() {
                       </button>
                     </td>
                     <td className="px-6 py-4">
-                      {product.soldOut ? (
-                        <span className="sold-out-badge">Sold Out</span>
-                      ) : (
-                        <span className="quantity-badge">Available</span>
-                      )}
+                      <button
+                        onClick={() => toggleSoldOutMutation.mutate({ id: product.id, soldOut: !product.soldOut })}
+                        className="transition-opacity hover:opacity-70"
+                        title={product.soldOut ? "Mark as Available" : "Mark as Sold Out"}
+                      >
+                        {product.soldOut ? (
+                          <span className="sold-out-badge">Sold Out</span>
+                        ) : (
+                          <span className="quantity-badge">Available</span>
+                        )}
+                      </button>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-3">
