@@ -23,7 +23,9 @@ let ProductsService = class ProductsService {
         });
     }
     async findAll() {
-        return this.prisma.product.findMany();
+        return this.prisma.product.findMany({
+            orderBy: { createdAt: 'desc' },
+        });
     }
     async findOne(id) {
         return this.prisma.product.findUnique({
