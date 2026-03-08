@@ -26,6 +26,7 @@ class CreateProductDto {
     description;
     function;
     quantity;
+    featured;
     soldOut;
     image;
     dropDate;
@@ -102,6 +103,11 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
 ], CreateProductDto.prototype, "quantity", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], CreateProductDto.prototype, "featured", void 0);
 __decorate([
     (0, class_validator_1.IsBoolean)(),
     (0, class_validator_1.IsOptional)(),

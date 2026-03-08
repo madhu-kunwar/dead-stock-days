@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Plus, Edit, Trash2, Search, ImageIcon } from 'lucide-react'
+import { Plus, Edit, Trash2, Search, ImageIcon, Star } from 'lucide-react'
 import { productApi } from '../lib/api'
 
 export function Products() {
@@ -15,6 +15,14 @@ export function Products() {
 
   const deleteMutation = useMutation({
     mutationFn: productApi.delete,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] })
+    },
+  })
+
+  const toggleFeaturedMutation = useMutation({
+    mutationFn: ({ id, featured }: { id: string; featured: boolean }) =>
+      productApi.update(id, { featured }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] })
     },
@@ -114,6 +122,7 @@ export function Products() {
                   <th className="px-6 py-4 detail-label hidden md:table-cell">Era</th>
                   <th className="px-6 py-4 detail-label hidden lg:table-cell">Category</th>
                   <th className="px-6 py-4 detail-label">Quantity</th>
+                  <th className="px-6 py-4 detail-label text-center">Featured</th>
                   <th className="px-6 py-4 detail-label">Status</th>
                   <th className="px-6 py-4 detail-label text-right">Actions</th>
                 </tr>
@@ -139,6 +148,14 @@ export function Products() {
                     <td className="px-6 py-4 text-muted-foreground uppercase text-xs hidden md:table-cell">{product.era}</td>
                     <td className="px-6 py-4 text-muted-foreground uppercase text-[10px] hidden lg:table-cell tracking-widest">{product.productCategory || product.archiveType}</td>
                     <td className="px-6 py-4 tracking-wider text-sm">{product.quantity}</td>
+                    <td className="px-6 py-4 text-center">
+                      <button
+                        onClick={() => toggleFeaturedMutation.mutate({ id: product.id, featured: !product.featured })}
+                        className={`p-2 transition-colors ${product.featured ? 'text-accent' : 'text-muted-foreground/30 hover:text-accent/50'}`}
+                      >
+                        <Star className={`w-5 h-5 ${product.featured ? 'fill-accent' : ''}`} />
+                      </button>
+                    </td>
                     <td className="px-6 py-4">
                       {product.soldOut ? (
                         <span className="sold-out-badge">Sold Out</span>

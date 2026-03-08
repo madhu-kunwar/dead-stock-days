@@ -19,6 +19,7 @@ export declare class ProductsService {
         style: string | null;
         description: string;
         quantity: number;
+        featured: boolean;
         soldOut: boolean;
         image: string;
         dropDate: string;
@@ -42,6 +43,7 @@ export declare class ProductsService {
         style: string | null;
         description: string;
         quantity: number;
+        featured: boolean;
         soldOut: boolean;
         image: string;
         dropDate: string;
@@ -65,6 +67,7 @@ export declare class ProductsService {
         style: string | null;
         description: string;
         quantity: number;
+        featured: boolean;
         soldOut: boolean;
         image: string;
         dropDate: string;
@@ -88,6 +91,7 @@ export declare class ProductsService {
         style: string | null;
         description: string;
         quantity: number;
+        featured: boolean;
         soldOut: boolean;
         image: string;
         dropDate: string;
@@ -111,6 +115,7 @@ export declare class ProductsService {
         style: string | null;
         description: string;
         quantity: number;
+        featured: boolean;
         soldOut: boolean;
         image: string;
         dropDate: string;

@@ -13,6 +13,7 @@ export declare class CreateProductDto {
     description: string;
     function: string;
     quantity: number;
+    featured?: boolean;
     soldOut?: boolean;
     image: string;
     dropDate: string;

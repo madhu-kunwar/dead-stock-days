@@ -87,7 +87,7 @@ const Index = () => {
   });
 
   const featuredProducts = products 
-    ? products.filter(p => !p.soldOut && (p.shoppingCategory === 'Featured' || p.shoppingCategory === 'Best Sellers')).slice(0, 6)
+    ? products.filter(p => !p.soldOut && (p.featured || p.shoppingCategory === 'Best Sellers')).slice(0, 6)
     : [];
 
   // If no "Featured" tag exists, just take top 6

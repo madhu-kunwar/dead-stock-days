@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchProducts, createProduct, updateProduct, deleteProduct } from '@/lib/api';
 import { Product } from '@/types/product';
-import { Plus, Edit, Trash2, X } from 'lucide-react';
+import { Plus, Edit, Trash2, X, Star } from 'lucide-react';
 import { toast } from 'sonner';
 
 const Admin = () => {
@@ -48,6 +48,15 @@ const Admin = () => {
     },
     onError: () => {
       toast.error('Failed to delete product');
+    },
+  });
+
+  const toggleFeaturedMutation = useMutation({
+    mutationFn: ({ id, featured }: { id: string; featured: boolean }) =>
+      updateProduct(id, { featured }),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+      toast.success(variables.featured ? 'Added to Featured' : 'Removed from Featured');
     },
   });
 
@@ -124,6 +133,7 @@ const Admin = () => {
                   <th className="px-6 py-4 text-left detail-label">Era</th>
                   <th className="px-6 py-4 text-left detail-label">Category</th>
                   <th className="px-6 py-4 text-left detail-label">Stock</th>
+                  <th className="px-6 py-4 text-left detail-label">Featured</th>
                   <th className="px-6 py-4 text-left detail-label">Status</th>
                   <th className="px-6 py-4 text-left detail-label">Actions</th>
                 </tr>
@@ -143,6 +153,14 @@ const Admin = () => {
                     <td className="px-6 py-4 text-sm">{product.era}</td>
                     <td className="px-6 py-4 text-sm">{product.productCategory || product.archiveType}</td>
                     <td className="px-6 py-4 text-sm">{product.quantity}</td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => toggleFeaturedMutation.mutate({ id: product.id, featured: !product.featured })}
+                        className={`p-2 transition-colors ${product.featured ? 'text-accent' : 'text-muted-foreground/30 hover:text-accent/50'}`}
+                      >
+                        <Star className={`w-4 h-4 ${product.featured ? 'fill-accent' : ''}`} />
+                      </button>
+                    </td>
                     <td className="px-6 py-4">
                       {product.soldOut ? (
                         <span className="sold-out-badge text-[10px]">Sold Out</span>
@@ -222,6 +240,7 @@ const ProductFormModal = ({
     description: product?.description || '',
     function: product?.function || '',
     quantity: product?.quantity || 0,
+    featured: product?.featured || false,
     soldOut: product?.soldOut || false,
     image: product?.image || '',
     dropDate: product?.dropDate || new Date().toISOString().split('T')[0],
@@ -424,17 +443,32 @@ const ProductFormModal = ({
             />
           </div>
 
-          <div className="flex items-center gap-3">
-            <input
-              type="checkbox"
-              id="soldOut"
-              checked={formData.soldOut}
-              onChange={(e) => setFormData({ ...formData, soldOut: e.target.checked })}
-              className="w-4 h-4 accent-accent"
-            />
-            <label htmlFor="soldOut" className="detail-label cursor-pointer text-xs">
-              Mark as Sold Out
-            </label>
+          <div className="flex flex-wrap items-center gap-8 pt-4 border-t border-border">
+            <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={formData.featured}
+                  onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                  className="w-4 h-4 accent-accent"
+                />
+                <label htmlFor="featured" className="detail-label cursor-pointer text-xs">
+                  Featured Product
+                </label>
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                id="soldOut"
+                checked={formData.soldOut}
+                onChange={(e) => setFormData({ ...formData, soldOut: e.target.checked })}
+                className="w-4 h-4 accent-accent"
+              />
+              <label htmlFor="soldOut" className="detail-label cursor-pointer text-xs">
+                Mark as Sold Out
+              </label>
+            </div>
           </div>
 
           <div className="flex items-center gap-4 pt-4 border-t border-border">
