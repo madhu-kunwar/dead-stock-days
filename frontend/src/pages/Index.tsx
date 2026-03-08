@@ -5,13 +5,18 @@ import { ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import useEmblaCarousel from 'embla-carousel-react';
 import heroImage from '@/assets/hero-image.jpg';
-import { fetchProducts } from '@/lib/api';
+import { fetchProducts, updateProduct } from '@/lib/api';
 import { Product } from '@/types/product';
 import ProductCard from '@/components/ProductCard';
 import EmailCapture from '@/components/EmailCapture';
+import { useFavorites } from '@/hooks/useFavorites';
+import { useBucketlist } from '@/hooks/useBucketlist';
+import { Heart, BookmarkPlus } from 'lucide-react';
 
 // Featured Slider Component
 const FeaturedSlider = ({ products }: { products: Product[] }) => {
+  const { toggleFavorite, isFavorite } = useFavorites();
+  const { toggleBucketlist, isInBucketlist } = useBucketlist();
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' });
 
   const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
@@ -53,19 +58,72 @@ const FeaturedSlider = ({ products }: { products: Product[] }) => {
                 className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] min-w-0"
               >
                 <div className="group h-full flex flex-col">
-                  <Link to={`/product/${product.id}`} className="block relative aspect-[3/4] overflow-hidden bg-muted group">
+                  <Link to={`/product/${product.id}`} className="block relative aspect-[3/4] overflow-hidden bg-card border border-border group">
                     <img 
                       src={product.image} 
                       alt={product.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500" />
+
+                    {/* Action Buttons - Always visible */}
+                    <div className="absolute top-6 right-6 z-20 flex flex-col gap-3">
+                      {product.soldOut ? (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleBucketlist(product.id);
+                          }}
+                          className={`p-3 backdrop-blur-md border border-white/10 transition-colors hover:bg-white/20 ${
+                            isInBucketlist(product.id) ? 'bg-accent text-accent-foreground' : 'bg-black/40 text-white'
+                          }`}
+                        >
+                          <BookmarkPlus size={18} />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleFavorite(product.id);
+                          }}
+                          className={`p-3 backdrop-blur-md border border-white/10 transition-colors hover:bg-white/20 ${
+                            isFavorite(product.id) ? 'bg-accent text-accent-foreground' : 'bg-black/40 text-white'
+                          }`}
+                        >
+                          <Heart 
+                            size={18}
+                            className={isFavorite(product.id) ? 'fill-current' : ''}
+                          />
+                        </button>
+                      )}
+                    </div>
+                    
+                    {/* Background Ghost Text - 'Text Photo' Aesthetic */}
+                    <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 pointer-events-none overflow-hidden h-full flex items-center justify-center opacity-[0.03]">
+                      <span className="font-display text-[25vw] leading-none uppercase select-none rotate-90 sm:rotate-0">
+                        {product.archiveType}
+                      </span>
+                    </div>
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+                    
                     {product.soldOut && (
-                      <span className="absolute top-4 right-4 sold-out-badge">Sold Out</span>
+                      <span className="absolute top-4 right-4 sold-out-badge z-10">Sold Out</span>
                     )}
-                    <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500 bg-gradient-to-t from-black/80 to-transparent">
-                       <span className="text-white text-xs tracking-widest uppercase mb-2 block">{product.productCategory || product.archiveType}</span>
-                       <span className="text-white font-display text-2xl uppercase tracking-wider block">{product.name}</span>
+
+                    {/* Always Visible Text Info */}
+                    <div className="absolute inset-0 p-8 flex flex-col justify-end z-10">
+                       <span className="text-accent text-[10px] tracking-[0.4em] uppercase mb-4 block animate-in fade-in slide-in-from-bottom-2 duration-700">
+                         {product.productCategory || product.archiveType}
+                       </span>
+                       <h3 className="text-white font-display text-4xl lg:text-5xl uppercase leading-[0.9] tracking-tighter mb-4">
+                         {product.name}
+                       </h3>
+                       <div className="flex items-center gap-4 opacity-100 group-hover:opacity-100 transition-opacity duration-500">
+                          <span className="h-px w-8 bg-accent" />
+                          <span className="detail-label text-[10px]">View Archive Piece</span>
+                       </div>
                     </div>
                   </Link>
                 </div>
@@ -156,7 +214,7 @@ const Index = () => {
       <FeaturedSlider products={displayFeatured} />
 
       {/* Core Features / Philosophy */}
-      <section className="py-32 border-b border-border bg-card/5">
+      {/* <section className="py-32 border-b border-border bg-card/5">
         <div className="container mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             <div className="space-y-6">
@@ -182,7 +240,7 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Main Inventory Title */}
       <section className="pt-32 pb-12 bg-background">
