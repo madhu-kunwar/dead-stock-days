@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+@layer base {
+  :root {
+    /* Hardcoded design system from frontend */
+    --background: 0 0% 6%;
+    --foreground: 40 20% 92%;
+    --card: 0 0% 9%;
+    --card-foreground: 40 20% 92%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 40 20% 92%;
+    --primary: 40 30% 88%;
+    --primary-foreground: 0 0% 6%;
+    --secondary: 30 5% 18%;
+    --secondary-foreground: 40 20% 85%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 30 5% 55%;
+    --accent: 38 45% 45%;
+    --accent-foreground: 0 0% 6%;
+    --destructive: 0 40% 35%;
+    --destructive-foreground: 40 20% 92%;
+    --border: 0 0% 18%;
+    --input: 0 0% 15%;
+    --ring: 40 30% 88%;
+    --radius: 0px;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+  }
+  h1, h2, h3, .font-display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+@layer components {
+  /* Copying essential premium classes from frontend */
+  .hero-title {
+    @apply text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-none tracking-wider;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  .archive-label {
+    @apply text-xs tracking-[0.25em] uppercase font-medium text-muted-foreground;
+  }
+
+  .quantity-badge {
+    @apply inline-flex items-center px-3 py-1 text-xs tracking-widest uppercase bg-accent text-accent-foreground;
+  }
+
+  .sold-out-badge {
+    @apply inline-flex items-center px-3 py-1 text-xs tracking-widest uppercase bg-destructive text-destructive-foreground;
+  }
+
+  .btn-request {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 text-sm tracking-[0.2em] uppercase font-medium transition-all duration-300 bg-primary text-primary-foreground;
+  }
+
+  .btn-request:hover {
+    @apply bg-accent text-accent-foreground;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 text-sm tracking-[0.2em] uppercase font-medium transition-all duration-300 border border-border bg-transparent text-foreground hover:border-primary hover:text-primary;
+  }
+
+  .input-editorial {
+    @apply w-full px-0 py-3 text-sm tracking-wide bg-transparent border-0 border-b border-border focus:outline-none focus:ring-0 focus:border-accent transition-colors text-foreground;
+  }
+
+  .input-editorial::placeholder {
+    @apply text-muted-foreground uppercase tracking-widest text-[10px];
+  }
+}

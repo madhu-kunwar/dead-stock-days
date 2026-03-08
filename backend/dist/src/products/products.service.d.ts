@@ -1,0 +1,86 @@
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateProductDto } from './dto/create-product.dto';
+export declare class ProductsService {
+    private prisma;
+    constructor(prisma: PrismaService);
+    create(createProductDto: CreateProductDto): Promise<{
+        function: string;
+        id: string;
+        name: string;
+        price: number;
+        era: string;
+        archiveType: string;
+        description: string;
+        quantity: number;
+        soldOut: boolean;
+        image: string;
+        dropDate: string;
+        dropName: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    findAll(): Promise<{
+        function: string;
+        id: string;
+        name: string;
+        price: number;
+        era: string;
+        archiveType: string;
+        description: string;
+        quantity: number;
+        soldOut: boolean;
+        image: string;
+        dropDate: string;
+        dropName: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }[]>;
+    findOne(id: string): Promise<{
+        function: string;
+        id: string;
+        name: string;
+        price: number;
+        era: string;
+        archiveType: string;
+        description: string;
+        quantity: number;
+        soldOut: boolean;
+        image: string;
+        dropDate: string;
+        dropName: string;
+        createdAt: Date;
+        updatedAt: Date;
+    } | null>;
+    update(id: string, updateProductDto: Partial<CreateProductDto>): Promise<{
+        function: string;
+        id: string;
+        name: string;
+        price: number;
+        era: string;
+        archiveType: string;
+        description: string;
+        quantity: number;
+        soldOut: boolean;
+        image: string;
+        dropDate: string;
+        dropName: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+    remove(id: string): Promise<{
+        function: string;
+        id: string;
+        name: string;
+        price: number;
+        era: string;
+        archiveType: string;
+        description: string;
+        quantity: number;
+        soldOut: boolean;
+        image: string;
+        dropDate: string;
+        dropName: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }>;
+}

@@ -1,0 +1,224 @@
+import { useParams, Link } from 'react-router-dom';
+import { Heart, BookmarkPlus, ArrowLeft, MessageCircle } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { fetchProductById, fetchProducts } from '@/lib/api';
+import { useFavorites } from '@/hooks/useFavorites';
+import { useBucketlist } from '@/hooks/useBucketlist';
+import EmailCapture from '@/components/EmailCapture';
+import ProductCard from '@/components/ProductCard';
+
+const ProductDetail = () => {
+  const { id } = useParams<{ id: string }>();
+  const { toggleFavorite, isFavorite } = useFavorites();
+  const { toggleBucketlist, isInBucketlist } = useBucketlist();
+
+  const { data: product, isLoading: isProductLoading } = useQuery({
+    queryKey: ['product', id],
+    queryFn: () => fetchProductById(id as string),
+    enabled: !!id,
+  });
+
+  const { data: allProducts = [] } = useQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+  });
+
+  if (isProductLoading) {
+    return (
+      <main className="pt-20 min-h-screen flex items-center justify-center">
+        <div className="text-center animate-pulse">
+          <h1 className="font-display text-4xl mb-4 text-muted-foreground">Loading Piece...</h1>
+        </div>
+      </main>
+    );
+  }
+
+  if (!product) {
+    return (
+      <main className="pt-20 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="font-display text-4xl mb-4">Piece Not Found</h1>
+          <Link to="/drops" className="nav-link">Return to Archive →</Link>
+        </div>
+      </main>
+    );
+  }
+
+  const relatedProducts = allProducts
+    .filter(p => p.id !== product.id && p.archiveType === product.archiveType)
+    .slice(0, 2);
+
+  const whatsappMessage = encodeURIComponent(
+    `Hi, I'm interested in the ${product.name} (${product.id}) from Dead Stock Days. Is it still available?`
+  );
+
+  return (
+    <main className="pt-20">
+      {/* Back Link */}
+      <div className="container mx-auto px-6 lg:px-12 py-6">
+        <Link to="/drops" className="inline-flex items-center gap-2 nav-link">
+          <ArrowLeft className="w-4 h-4" />
+          Back to Archive
+        </Link>
+      </div>
+
+      {/* Product Section */}
+      <section className="pb-24">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+            {/* Image */}
+            <div className="editorial-image bg-muted">
+              <img 
+                src={product.image} 
+                alt={product.name}
+                className={product.soldOut ? 'grayscale opacity-70' : ''}
+              />
+              {product.soldOut ? (
+                <div className="absolute top-6 left-6">
+                  <span className="sold-out-badge">Archived · Sold Out</span>
+                </div>
+              ) : (
+                <div className="absolute top-6 left-6">
+                  <span className="quantity-badge">Only {product.quantity} Remaining</span>
+                </div>
+              )}
+            </div>
+
+            {/* Details */}
+            <div className="space-y-8">
+              {/* Header */}
+              <div className="space-y-4">
+                <span className="archive-label">{product.dropName}</span>
+                <h1 className="font-display text-5xl md:text-6xl tracking-wide">{product.name}</h1>
+                <p className="text-3xl font-light">Rs. {product.price}</p>
+              </div>
+
+              {/* Description */}
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                {product.description}
+              </p>
+
+              {/* Details Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-8 py-8 border-y border-border">
+                <div className="space-y-1">
+                  <span className="archive-label">Era</span>
+                  <p className="font-display text-xl">{product.era}</p>
+                </div>
+                <div className="space-y-1">
+                  <span className="archive-label">Category</span>
+                  <p className="font-display text-xl">{product.productCategory || product.archiveType}</p>
+                </div>
+                <div className="space-y-1">
+                  <span className="archive-label">Style</span>
+                  <p className="font-display text-xl">{product.style || 'Streetwear'}</p>
+                </div>
+                {product.brand && (
+                  <div className="space-y-1">
+                    <span className="archive-label">Brand</span>
+                    <p className="font-display text-xl">{product.brand}</p>
+                  </div>
+                )}
+                {product.material && (
+                  <div className="space-y-1">
+                    <span className="archive-label">Material</span>
+                    <p className="font-display text-xl">{product.material}</p>
+                  </div>
+                )}
+                <div className="space-y-1">
+                  <span className="archive-label">Availability</span>
+                  <p className={`font-display text-xl ${product.soldOut ? 'text-destructive' : 'text-accent'}`}>
+                    {product.soldOut ? 'Sold Out' : `${product.quantity} Available`}
+                  </p>
+                </div>
+              </div>
+
+              {/* Actions */}
+              {product.soldOut ? (
+                <div className="space-y-4">
+                  <p className="text-muted-foreground">
+                    This piece has been permanently archived. Add to your bucketlist to be 
+                    notified if similar pieces become available.
+                  </p>
+                  <button
+                    onClick={() => toggleBucketlist(product.id)}
+                    className={`btn-outline w-full ${isInBucketlist(product.id) ? 'border-accent text-accent' : ''}`}
+                  >
+                    <BookmarkPlus className="w-5 h-5" />
+                    {isInBucketlist(product.id) ? 'Added to Bucketlist' : 'Add to Bucketlist'}
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <a 
+                    href={`https://wa.me/9708366579?text=${whatsappMessage}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-request w-full"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    Request to Buy via WhatsApp
+                  </a>
+                  <a 
+                    href="https://www.instagram.com/direct/t/17845963320653796/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-outline w-full"
+                  >
+                    DM on Instagram
+                  </a>
+                  <button
+                    onClick={() => toggleFavorite(product.id)}
+                    className={`btn-outline w-full ${isFavorite(product.id) ? 'border-accent text-accent' : ''}`}
+                  >
+                    <Heart className={`w-5 h-5 ${isFavorite(product.id) ? 'fill-accent' : ''}`} />
+                    {isFavorite(product.id) ? 'Saved' : 'Save for Later'}
+                  </button>
+                </div>
+              )}
+
+              {/* Drop Info */}
+              <div className="bg-muted p-6 space-y-2">
+                <span className="archive-label">Drop Information</span>
+                <p className="text-sm text-muted-foreground">
+                  This piece was released as part of {product.dropName} on{' '}
+                  {new Date(product.dropDate).toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                  })}. 
+                  All purchases are handled manually via WhatsApp or Instagram DM.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Related Products */}
+      {relatedProducts.length > 0 && (
+        <section className="py-24 border-t border-border">
+          <div className="container mx-auto px-6 lg:px-12">
+            <div className="flex items-end justify-between mb-12">
+              <div className="space-y-2">
+                <span className="archive-label">More From Archive</span>
+                <h2 className="section-title">Related Pieces</h2>
+              </div>
+              <Link to="/drops" className="nav-link exclusive-border pb-1">
+                View All →
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+              {relatedProducts.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <EmailCapture />
+    </main>
+  );
+};
+
+export default ProductDetail;

@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dead Stock Days - Editorial Archive Streetwear Design System
+   Dark, gritty, nostalgic aesthetic with minimal typography
+   All colors in HSL format */
+
+@layer base {
+  :root {
+    /* Core palette - Dark gritty tones */
+    --background: 0 0% 6%;
+    --foreground: 40 20% 92%;
+
+    /* Card surfaces - slightly elevated */
+    --card: 0 0% 9%;
+    --card-foreground: 40 20% 92%;
+
+    /* Popover/dropdown surfaces */
+    --popover: 0 0% 8%;
+    --popover-foreground: 40 20% 92%;
+
+    /* Primary - Aged cream/off-white for emphasis */
+    --primary: 40 30% 88%;
+    --primary-foreground: 0 0% 6%;
+
+    /* Secondary - Warm gray */
+    --secondary: 30 5% 18%;
+    --secondary-foreground: 40 20% 85%;
+
+    /* Muted - Subtle backgrounds */
+    --muted: 0 0% 12%;
+    --muted-foreground: 30 5% 55%;
+
+    /* Accent - Aged gold/sepia */
+    --accent: 38 45% 45%;
+    --accent-foreground: 0 0% 6%;
+
+    /* Destructive - For sold out states */
+    --destructive: 0 40% 35%;
+    --destructive-foreground: 40 20% 92%;
+
+    /* Archive red - nostalgic accent */
+    --archive-red: 0 50% 40%;
+    --archive-red-foreground: 40 20% 92%;
+
+    /* Exclusive gold */
+    --exclusive: 45 50% 55%;
+    --exclusive-foreground: 0 0% 6%;
+
+    /* Borders and inputs */
+    --border: 0 0% 18%;
+    --input: 0 0% 15%;
+    --ring: 40 30% 88%;
+
+    --radius: 0px;
+
+    /* Sidebar - archive navigation */
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 40 20% 85%;
+    --sidebar-primary: 40 30% 88%;
+    --sidebar-primary-foreground: 0 0% 6%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 40 20% 85%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 40 30% 88%;
+  }
+
+  .dark {
+    /* Dark mode is the default, keep same values */
+    --background: 0 0% 6%;
+    --foreground: 40 20% 92%;
+    --card: 0 0% 9%;
+    --card-foreground: 40 20% 92%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 40 20% 92%;
+    --primary: 40 30% 88%;
+    --primary-foreground: 0 0% 6%;
+    --secondary: 30 5% 18%;
+    --secondary-foreground: 40 20% 85%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 30 5% 55%;
+    --accent: 38 45% 45%;
+    --accent-foreground: 0 0% 6%;
+    --destructive: 0 40% 35%;
+    --destructive-foreground: 40 20% 92%;
+    --border: 0 0% 18%;
+    --input: 0 0% 15%;
+    --ring: 40 30% 88%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  /* Display typography - Bebas Neue */
+  h1, h2, h3, .display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+}
+
+@layer components {
+  /* Editorial Container */
+  .container-editorial {
+    @apply container mx-auto px-6 lg:px-12 max-w-7xl;
+  }
+
+  /* Typography System Updates */
+  .display-medium {
+    @apply text-4xl sm:text-5xl md:text-6xl tracking-wide;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  .body-large {
+    @apply text-lg md:text-xl font-light leading-relaxed;
+  }
+
+  .metadata {
+    @apply text-xs tracking-[0.2em] uppercase font-medium text-muted-foreground;
+  }
+
+  .cta-ghost {
+    @apply text-sm tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-300;
+  }
+
+  /* Hero text styles */
+  .hero-title {
+    @apply text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] leading-none tracking-wider;
+    font-family: 'Bebas Neue', sans-serif;
+    text-transform: uppercase;
+  }
+
+  .hero-subtitle {
+    @apply text-lg sm:text-xl md:text-2xl font-light tracking-widest uppercase;
+    letter-spacing: 0.3em;
+  }
+
+  /* Section headers */
+  .section-title {
+    @apply text-4xl sm:text-5xl md:text-6xl tracking-wide;
+    font-family: 'Bebas Neue', sans-serif;
+  }
+
+  /* Archive labels */
+  .archive-label {
+    @apply text-xs tracking-[0.25em] uppercase font-medium;
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Quantity badge */
+  .quantity-badge {
+    @apply inline-flex items-center px-3 py-1 text-xs tracking-widest uppercase;
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+
+  .sold-out-badge {
+    @apply inline-flex items-center px-3 py-1 text-xs tracking-widest uppercase;
+    background: hsl(var(--destructive));
+    color: hsl(var(--destructive-foreground));
+  }
+
+  /* Editorial image container */
+  .editorial-image {
+    @apply relative overflow-hidden;
+    aspect-ratio: 3/4;
+  }
+
+  .editorial-image img {
+    @apply w-full h-full object-cover transition-transform duration-700;
+  }
+
+  .editorial-image:hover img {
+    @apply scale-105;
+  }
+
+  /* Gritty grain overlay */
+  .grain-overlay {
+    @apply fixed inset-0 pointer-events-none z-50;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    mix-blend-mode: overlay;
+  }
+
+  /* Minimal scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+
+  /* Archive card hover effect */
+  .archive-card {
+    @apply relative transition-all duration-500;
+  }
+
+  .archive-card::before {
+    @apply absolute inset-0 opacity-0 transition-opacity duration-500;
+    content: '';
+    background: linear-gradient(to top, hsl(var(--background)) 0%, transparent 50%);
+  }
+
+  .archive-card:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Exclusive border animation */
+  .exclusive-border {
+    @apply relative;
+  }
+
+  .exclusive-border::after {
+    @apply absolute bottom-0 left-0 w-0 h-px transition-all duration-500;
+    content: '';
+    background: hsl(var(--accent));
+  }
+
+  .exclusive-border:hover::after {
+    @apply w-full;
+  }
+
+  /* Request button styles */
+  .btn-request {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 text-sm tracking-[0.2em] uppercase font-medium transition-all duration-300;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .btn-request:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-3 px-8 py-4 text-sm tracking-[0.2em] uppercase font-medium transition-all duration-300 border;
+    border-color: hsl(var(--border));
+    color: hsl(var(--foreground));
+    background: transparent;
+  }
+
+  .btn-outline:hover {
+    border-color: hsl(var(--primary));
+    color: hsl(var(--primary));
+  }
+
+  /* Navigation styles */
+  .nav-link {
+    @apply text-sm tracking-[0.15em] uppercase transition-colors duration-300;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: hsl(var(--foreground));
+  }
+
+  /* Input styles */
+  .input-editorial {
+    @apply w-full px-0 py-3 text-sm tracking-wide bg-transparent border-0 border-b focus:outline-none focus:ring-0 transition-colors;
+    border-color: hsl(var(--border));
+    color: hsl(var(--foreground));
+  }
+
+  .input-editorial:focus {
+    border-color: hsl(var(--accent));
+  }
+
+  .input-editorial::placeholder {
+    color: hsl(var(--muted-foreground));
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
+  }
+
+  /* Fade in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-delay-1 {
+    animation: fadeIn 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in-delay-2 {
+    animation: fadeIn 0.8s ease-out 0.4s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in-delay-3 {
+    animation: fadeIn 0.8s ease-out 0.6s forwards;
+    opacity: 0;
+  }
+
+  /* Stagger children animation */
+  .stagger-children > * {
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
+  .stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+  .stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+}
