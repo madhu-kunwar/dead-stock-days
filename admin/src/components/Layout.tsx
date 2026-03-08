@@ -1,95 +1,111 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Package, LogOut, Menu, X, Activity } from 'lucide-react'
 import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { 
+  LayoutDashboard, 
+  Package, 
+  PlusCircle, 
+  Settings, 
+  Users,
+  Menu,
+  X,
+  LogOut,
+  ChevronRight,
+  Database
+} from 'lucide-react'
 import { cn } from '../lib/utils'
 
-const NAV_ITEMS = [
-  { to: '/', label: 'DASHBOARD', icon: LayoutDashboard, exact: true },
-  { to: '/products', label: 'ARCHIVE', icon: Package, exact: false },
-]
+interface SidebarItemProps {
+  to: string
+  icon: any
+  label: string
+  active?: boolean
+  onClick?: () => void
+}
 
-export function Layout() {
-  const navigate = useNavigate()
+function SidebarItem({ to, icon: Icon, label, active, onClick }: SidebarItemProps) {
+  return (
+    <Link
+      to={to}
+      onClick={onClick}
+      className={cn(
+        "flex items-center gap-4 px-6 py-4 border-l-2 transition-all duration-300 group",
+        active 
+          ? "bg-muted border-accent text-foreground" 
+          : "border-transparent text-muted-foreground hover:bg-muted/50 hover:text-foreground hover:border-border"
+      )}
+    >
+      <Icon className={cn("w-5 h-5 transition-transform group-hover:scale-110", active && "text-accent")} />
+      <span className="font-display tracking-[0.2em] uppercase text-[10px] sm:text-xs">
+        {label}
+      </span>
+      {active && <ChevronRight className="w-3 h-3 ml-auto text-accent animate-in fade-in slide-in-from-left-2" />}
+    </Link>
+  )
+}
+
+export function Layout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
-  const handleLogout = () => {
-    localStorage.removeItem('admin_token')
-    navigate('/login')
-  }
+  const location = useLocation()
 
   const SidebarContent = () => (
-    <nav className="flex flex-col h-full bg-background border-r border-border">
-      {/* Brand */}
-      <div className="px-8 py-10 border-b border-border">
-        <h1 className="hero-title text-4xl tracking-tighter leading-none">DEADSTOCK</h1>
-        <p className="archive-label mt-2 text-[10px]">Registry System v1.0</p>
+    <div className="flex flex-col h-full bg-card">
+      <div className="p-8 border-b border-border mb-8">
+        <Link to="/" className="flex flex-col gap-1 items-start group">
+          <span className="text-[10px] tracking-[0.3em] font-light text-muted-foreground uppercase group-hover:text-accent transition-colors">Dead Stock Days</span>
+          <span className="hero-title text-3xl tracking-tight leading-none group-hover:text-foreground transition-colors">Admin Panel</span>
+        </Link>
       </div>
 
-      {/* Nav */}
-      <div className="flex-1 py-8 space-y-2 px-4">
-        {NAV_ITEMS.map(item => {
-          const Icon = item.icon
-          return (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.exact}
-              onClick={() => setSidebarOpen(false)}
-              className={({ isActive }) =>
-                cn(
-                  'flex items-center gap-4 px-4 py-3 text-xs tracking-[0.2em] font-medium transition-all duration-300 uppercase group',
-                  isActive
-                    ? 'text-accent border-l-2 border-accent bg-accent/5'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/30'
-                )
-              }
-            >
-              <Icon className="h-4 w-4 opacity-50 group-hover:opacity-100 transition-opacity" />
-              {item.label}
-            </NavLink>
-          )
-        })}
-      </div>
+      <nav className="flex-1 space-y-2">
+        <SidebarItem 
+          to="/" 
+          icon={LayoutDashboard} 
+          label="Home / Dashboard" 
+          active={location.pathname === '/'} 
+          onClick={() => setSidebarOpen(false)}
+        />
+        <SidebarItem 
+          to="/products" 
+          icon={Package} 
+          label="All Products" 
+          active={location.pathname === '/products'} 
+          onClick={() => setSidebarOpen(false)}
+        />
+        <SidebarItem 
+          to="/products/new" 
+          icon={PlusCircle} 
+          label="Add New Item" 
+          active={location.pathname === '/products/new'} 
+          onClick={() => setSidebarOpen(false)}
+        />
+      </nav>
 
-      {/* System Status Mockup */}
-      <div className="px-8 py-6 border-t border-border opacity-30 pointer-events-none select-none">
-         <div className="flex items-center gap-2 mb-2">
-            <Activity className="h-3 w-3 text-accent" />
-            <span className="archive-label text-[8px]">ENCRYPTED SYNC</span>
-         </div>
-         <div className="h-1 bg-border w-full relative overflow-hidden">
-            <div className="absolute inset-y-0 left-0 bg-accent w-1/3 animate-pulse" />
-         </div>
-      </div>
-
-      {/* Logout */}
-      <div className="px-4 py-6 border-t border-border bg-muted/10">
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-4 px-4 py-3 text-xs tracking-[0.2em] font-medium text-muted-foreground hover:text-destructive transition-colors w-full uppercase"
-        >
-          <LogOut className="h-4 w-4" />
-          DISCONNECT
+      <div className="p-8 border-t border-border mt-auto space-y-6">
+        <div className="flex items-center gap-4 text-muted-foreground">
+          <div className="relative">
+            <Database className="w-4 h-4" />
+            <div className="absolute -top-1 -right-1 w-2 h-2 bg-accent rounded-full animate-pulse" />
+          </div>
+          <span className="text-[9px] tracking-[0.2em] uppercase">Database Connected</span>
+        </div>
+        
+        <button className="flex items-center gap-3 w-full p-2 text-muted-foreground hover:text-destructive transition-colors uppercase text-[10px] tracking-widest group">
+          <LogOut className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          Disconnect
         </button>
       </div>
-    </nav>
+    </div>
   )
 
   return (
-    <div className="flex h-screen bg-background overflow-hidden font-sans">
-      {/* Grain Overlay */}
-      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay bg-[url('https://grain-y.com/assets/images/grain.png')]" />
-
-      {/* Desktop Sidebar */}
-      <aside className="hidden md:flex w-64 flex-col flex-shrink-0">
-        <SidebarContent />
-      </aside>
-
-      {/* Mobile Sidebar Overlay */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-40 flex md:hidden">
-          <div className="fixed inset-0 bg-background/90 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
-          <aside className="relative z-50 w-72 flex flex-col h-full animate-in slide-in-from-left duration-300">
+    <div className="min-h-screen bg-background">
+      {/* Mobile Sidebar */}
+      <div className={cn(
+        "fixed inset-0 z-50 lg:hidden transition-transform duration-500 ease-editorial",
+        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
+        <div className="relative w-80 h-full">
             <SidebarContent />
             <button 
               onClick={() => setSidebarOpen(false)}
@@ -97,24 +113,41 @@ export function Layout() {
             >
               <X className="h-6 w-6" />
             </button>
-          </aside>
         </div>
-      )}
+      </div>
 
-      {/* Main */}
-      <div className="flex-1 flex flex-col overflow-hidden relative">
-        {/* Top Bar (mobile) */}
-        <header className="md:hidden flex items-center justify-between px-6 py-4 border-b border-border bg-background">
-          <h1 className="hero-title text-2xl tracking-tighter">DEADSTOCK</h1>
-          <button onClick={() => setSidebarOpen(true)} className="p-1">
-            <Menu className="h-6 w-6" />
+      {/* Desktop Sidebar */}
+      <aside className="fixed inset-y-0 left-0 w-80 hidden lg:block border-r border-border">
+        <SidebarContent />
+      </aside>
+
+      {/* Main Content */}
+      <div className="lg:pl-80 min-h-screen flex flex-col">
+        {/* Mobile Header */}
+        <header className="lg:hidden flex items-center justify-between p-6 border-b border-border bg-card">
+          <Link to="/" className="hero-title text-xl">Deadstock Admin</Link>
+          <button onClick={() => setSidebarOpen(true)} className="p-2 border border-border">
+            <Menu className="w-6 h-6" />
           </button>
         </header>
 
-        {/* Content */}
-        <main className="flex-1 overflow-y-auto bg-background custom-scrollbar">
-          <Outlet />
-        </main>
+        <div className="flex-1 animate-in fade-in duration-700">
+          {children}
+        </div>
+
+        {/* Global Status Bar */}
+        <footer className="border-t border-border p-4 bg-muted/20">
+          <div className="container mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-6">
+              <span className="text-[8px] tracking-[0.3em] uppercase opacity-30">Admin Panel v1.0</span>
+              <div className="flex items-center gap-2">
+                 <div className="w-1.5 h-1.5 bg-accent rounded-full" />
+                 <span className="text-[8px] tracking-[0.2em] uppercase text-muted-foreground">Server Running</span>
+              </div>
+            </div>
+            <span className="text-[8px] tracking-[0.2em] uppercase text-muted-foreground">© 2024 Dead Stock Days</span>
+          </div>
+        </footer>
       </div>
     </div>
   )

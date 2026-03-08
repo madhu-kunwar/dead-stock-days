@@ -80,7 +80,7 @@ const Admin = () => {
             <span className="archive-label">Management</span>
             <h1 className="hero-title text-5xl sm:text-6xl md:text-7xl">Admin</h1>
             <p className="text-muted-foreground mt-4">
-              Manage your archive collection
+              Manage your products and collections.
             </p>
           </div>
           <button
@@ -95,11 +95,11 @@ const Admin = () => {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-muted p-6 border border-border">
-            <span className="archive-label">Total Products</span>
+            <span className="archive-label">Total Items</span>
             <p className="font-display text-4xl mt-2">{products.length}</p>
           </div>
           <div className="bg-muted p-6 border border-border">
-            <span className="archive-label">Available</span>
+            <span className="archive-label">In Stock</span>
             <p className="font-display text-4xl mt-2 text-accent">
               {products.filter(p => !p.soldOut).length}
             </p>
@@ -123,7 +123,7 @@ const Admin = () => {
                   <th className="px-6 py-4 text-left archive-label">Price</th>
                   <th className="px-6 py-4 text-left archive-label">Era</th>
                   <th className="px-6 py-4 text-left archive-label">Category</th>
-                  <th className="px-6 py-4 text-left archive-label">Quantity</th>
+                  <th className="px-6 py-4 text-left archive-label">Stock</th>
                   <th className="px-6 py-4 text-left archive-label">Status</th>
                   <th className="px-6 py-4 text-left archive-label">Actions</th>
                 </tr>
@@ -139,15 +139,15 @@ const Admin = () => {
                       />
                     </td>
                     <td className="px-6 py-4 font-medium">{product.name}</td>
-                    <td className="px-6 py-4">Rs. {product.price}</td>
-                    <td className="px-6 py-4">{product.era}</td>
-                    <td className="px-6 py-4">{product.productCategory || product.archiveType}</td>
-                    <td className="px-6 py-4">{product.quantity}</td>
+                    <td className="px-6 py-4 text-sm">Rs. {product.price}</td>
+                    <td className="px-6 py-4 text-sm">{product.era}</td>
+                    <td className="px-6 py-4 text-sm">{product.productCategory || product.archiveType}</td>
+                    <td className="px-6 py-4 text-sm">{product.quantity}</td>
                     <td className="px-6 py-4">
                       {product.soldOut ? (
-                        <span className="sold-out-badge">Sold Out</span>
+                        <span className="sold-out-badge text-[10px]">Sold Out</span>
                       ) : (
-                        <span className="quantity-badge">Available</span>
+                        <span className="quantity-badge text-[10px]">In Stock</span>
                       )}
                     </td>
                     <td className="px-6 py-4">
@@ -245,18 +245,18 @@ const ProductFormModal = ({
 
   return (
     <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-      <div className="bg-card border border-border max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-card border-b border-border px-6 py-4 flex items-center justify-between">
-          <h2 className="font-display text-2xl tracking-wide">
-            {product ? 'Edit Product' : 'Add New Product'}
+      <div className="bg-card border border-border max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div className="sticky top-0 bg-card border-b border-border px-6 py-4 flex items-center justify-between z-10">
+          <h2 className="font-display text-2xl tracking-wide uppercase">
+            {product ? 'Edit Item' : 'New Product'}
           </h2>
           <button onClick={onClose} className="p-2 hover:bg-muted transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={handleSubmit} className="p-6 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-2">
               <label className="archive-label">Product Name</label>
               <input
@@ -264,7 +264,7 @@ const ProductFormModal = ({
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="input-editorial w-full"
-                placeholder="MILITARY FIELD JACKET"
+                placeholder="Product Name"
                 required
               />
             </div>
@@ -276,13 +276,13 @@ const ProductFormModal = ({
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
                 className="input-editorial w-full"
-                placeholder="485"
+                placeholder="0"
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Era</label>
+              <label className="archive-label">Vintage Era</label>
               <select
                 value={formData.era}
                 onChange={(e) => setFormData({ ...formData, era: e.target.value })}
@@ -308,7 +308,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Shopping Category</label>
+              <label className="archive-label">Shop Section</label>
               <select
                 value={formData.shoppingCategory}
                 onChange={(e) => setFormData({ ...formData, shoppingCategory: e.target.value })}
@@ -332,7 +332,7 @@ const ProductFormModal = ({
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Sizes</label>
+              <label className="archive-label">Available Sizes</label>
               <input
                 type="text"
                 value={formData.size}
@@ -349,7 +349,7 @@ const ProductFormModal = ({
                 value={formData.color}
                 onChange={(e) => setFormData({ ...formData, color: e.target.value })}
                 className="input-editorial w-full"
-                placeholder="Navy, Black"
+                placeholder="Black, Navy"
               />
             </div>
 
@@ -360,7 +360,7 @@ const ProductFormModal = ({
                 value={formData.brand}
                 onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
                 className="input-editorial w-full"
-                placeholder="Vintage Military"
+                placeholder="Brand name"
               />
             </div>
 
@@ -371,42 +371,18 @@ const ProductFormModal = ({
                 value={formData.material}
                 onChange={(e) => setFormData({ ...formData, material: e.target.value })}
                 className="input-editorial w-full"
-                placeholder="Cotton Canvas"
+                placeholder="Material details"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Archive Type</label>
-              <input
-                type="text"
-                value={formData.archiveType}
-                onChange={(e) => setFormData({ ...formData, archiveType: e.target.value })}
-                className="input-editorial w-full"
-                placeholder="Outerwear"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="archive-label">Function</label>
-              <input
-                type="text"
-                value={formData.function}
-                onChange={(e) => setFormData({ ...formData, function: e.target.value })}
-                className="input-editorial w-full"
-                placeholder="Layering / Statement"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="archive-label">Quantity</label>
+              <label className="archive-label">Stock Quantity</label>
               <input
                 type="number"
                 value={formData.quantity}
                 onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) })}
                 className="input-editorial w-full"
-                placeholder="2"
+                placeholder="1"
                 required
               />
             </div>
@@ -418,42 +394,31 @@ const ProductFormModal = ({
                 value={formData.dropName}
                 onChange={(e) => setFormData({ ...formData, dropName: e.target.value })}
                 className="input-editorial w-full"
-                placeholder="Archive 001"
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="archive-label">Drop Date</label>
-              <input
-                type="date"
-                value={formData.dropDate}
-                onChange={(e) => setFormData({ ...formData, dropDate: e.target.value })}
-                className="input-editorial w-full"
+                placeholder="Collection Name"
                 required
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="archive-label">Image URL</label>
+            <label className="archive-label">Product Image URL</label>
             <input
               type="text"
               value={formData.image}
               onChange={(e) => setFormData({ ...formData, image: e.target.value })}
               className="input-editorial w-full"
-              placeholder="/src/assets/product-1.jpg"
+              placeholder="Image link"
               required
             />
           </div>
 
           <div className="space-y-2">
-            <label className="archive-label">Description</label>
+            <label className="archive-label">Short Description</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               className="input-editorial w-full min-h-[100px] resize-none"
-              placeholder="Authentic vintage military field jacket..."
+              placeholder="Describe the product..."
               required
             />
           </div>
@@ -466,16 +431,16 @@ const ProductFormModal = ({
               onChange={(e) => setFormData({ ...formData, soldOut: e.target.checked })}
               className="w-4 h-4 accent-accent"
             />
-            <label htmlFor="soldOut" className="archive-label cursor-pointer">
+            <label htmlFor="soldOut" className="archive-label cursor-pointer text-xs">
               Mark as Sold Out
             </label>
           </div>
 
           <div className="flex items-center gap-4 pt-4 border-t border-border">
-            <button type="submit" className="btn-request flex-1">
-              {product ? 'Update Product' : 'Create Product'}
+            <button type="submit" className="btn-request flex-1 py-3 text-xs uppercase tracking-widest">
+              {product ? 'Save Changes' : 'Create Product'}
             </button>
-            <button type="button" onClick={onClose} className="btn-outline flex-1">
+            <button type="button" onClick={onClose} className="btn-outline flex-1 py-3 text-xs uppercase tracking-widest">
               Cancel
             </button>
           </div>

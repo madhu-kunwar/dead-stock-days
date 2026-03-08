@@ -76,18 +76,21 @@ export function AddProduct() {
       setSuccess(true)
       setTimeout(() => navigate('/products'), 1500)
     } catch (e: any) {
-      setApiError(e?.response?.data?.message || 'Failed to create product.')
+      setApiError(e?.response?.data?.message || 'Failed to add product.')
     } finally {
       setSubmitting(false)
     }
-  }
+  }][\;;
+  ]\
+  ['
+  ]
 
   if (success) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
         <CheckCircle2 className="h-24 w-24 text-accent animate-in fade-in zoom-in duration-500" />
-        <h2 className="hero-title text-4xl mt-4">Archive Entry Success</h2>
-        <p className="archive-label">Redirecting to archive index…</p>
+        <h2 className="hero-title text-4xl mt-4">Product Added!</h2>
+        <p className="archive-label">Taking you back to the list…</p>
       </div>
     )
   }
@@ -101,146 +104,146 @@ export function AddProduct() {
             onClick={() => navigate('/products')}
             className="archive-label flex items-center gap-2 hover:text-foreground transition-colors mb-4"
           >
-            <ArrowLeft className="h-3 w-3" /> VOID BACK TO ARCHIVE
+            <ArrowLeft className="h-3 w-3" /> BACK TO PRODUCTS
           </button>
-          <h1 className="hero-title text-5xl md:text-6xl lg:text-7xl">Entry Registry</h1>
+          <h1 className="hero-title text-5xl md:text-6xl lg:text-7xl">Add Product</h1>
           <p className="text-muted-foreground mt-4 uppercase tracking-widest text-sm">
-            Cataloging a new artifact into the Deadstock collection.
+            Create a new item in your collection.
           </p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
-        {/* Visual Documentation */}
+        {/* Photo Upload */}
         <div className="bg-card border border-border p-8">
           <div className="flex flex-col gap-6">
             <div>
-              <span className="archive-label block mb-6">Visual Documentation</span>
+              <span className="archive-label block mb-6">Product Image</span>
               <CloudinaryUploader
                 value={watch('image')}
                 onChange={(url) => setValue('image', url)}
               />
-              {errors.image && <p className="text-destructive text-xs mt-2 uppercase tracking-widest">Image is required for archive entry.</p>}
+              {errors.image && <p className="text-destructive text-xs mt-2 uppercase tracking-widest">Please upload an image.</p>}
             </div>
             {!watch('image') && (
               <div className="hidden">
-                 <input {...register('image', { required: 'Image URL is required' })} />
+                 <input {...register('image', { required: 'Image is required' })} />
               </div>
             )}
           </div>
         </div>
 
-        {/* Primary Data */}
+        {/* Product Info */}
         <div className="bg-card border border-border p-8 space-y-12">
-          <h2 className="hero-title text-3xl">Registry Metadata</h2>
+          <h2 className="hero-title text-3xl">Basic Details</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
             <div className="space-y-2">
-              <label className="archive-label">Designation (NAME)</label>
+              <label className="archive-label">Product Name</label>
               <input
                 {...register('name', { required: 'Name is required' })}
-                placeholder="AUTHENTIC UTILITY GARMENT"
+                placeholder="e.g. Vintage T-Shirt"
                 className="input-editorial"
               />
               {errors.name && <p className="text-destructive text-[10px] uppercase tracking-widest">{errors.name.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Financial Valuation (RS.)</label>
+              <label className="archive-label">Price (Rs.)</label>
               <input
                 type="number"
                 step="0.01"
                 {...register('price', { required: 'Price is required', min: 0 })}
-                placeholder="485.00"
+                placeholder="0.00"
                 className="input-editorial"
               />
-              {errors.price && <p className="text-destructive text-[10px] uppercase tracking-widest">Valid valuation required.</p>}
+              {errors.price && <p className="text-destructive text-[10px] uppercase tracking-widest">Please enter a valid price.</p>}
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Men's Product Category</label>
+              <label className="archive-label">Category</label>
               <select {...register('productCategory', { required: true })} className="input-editorial cursor-pointer">
                 {PRODUCT_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Shopping Sequence / Category</label>
+              <label className="archive-label">Shop Section</label>
               <select {...register('shoppingCategory', { required: true })} className="input-editorial cursor-pointer">
                 {SHOPPING_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Era Segment</label>
+              <label className="archive-label">Era (Vintage)</label>
               <select {...register('era', { required: true })} className="input-editorial cursor-pointer">
                 {ERA_OPTIONS.map(e => <option key={e} value={e}>{e}</option>)}
               </select>
             </div>
 
             <div className="space-y-2">
-              <label className="archive-label">Archive Classification</label>
+              <label className="archive-label">Clothing Type</label>
               <input
                 {...register('archiveType', { required: true })}
-                placeholder="OUTERWEAR / TOPS"
+                placeholder="e.g. Tops / Bottoms"
                 className="input-editorial"
               />
             </div>
           </div>
         </div>
 
-        {/* Product Attributes (Filters) */}
+        {/* Extra Specs */}
         <div className="bg-card border border-border p-8 space-y-12">
-          <h2 className="hero-title text-3xl">Artifact Attributes</h2>
+          <h2 className="hero-title text-3xl">Product Specifications</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
             <div className="space-y-2">
-              <label className="archive-label">Available Sizes (S, M, L...)</label>
+              <label className="archive-label">Sizes Available</label>
               <input
                 {...register('size')}
-                placeholder="M, L, XL"
+                placeholder="e.g. S, M, L"
                 className="input-editorial"
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Color Profile</label>
+              <label className="archive-label">Color</label>
               <input
                 {...register('color')}
-                placeholder="NAVY / ASH"
+                placeholder="e.g. Black, White"
                 className="input-editorial"
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Brand / Label</label>
+              <label className="archive-label">Brand</label>
               <input
                 {...register('brand')}
-                placeholder="VINTAGE MILITARY"
+                placeholder="e.g. Levi's"
                 className="input-editorial"
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Material Composition</label>
+              <label className="archive-label">Material</label>
               <input
                 {...register('material')}
-                placeholder="100% COTTON CANVAS"
+                placeholder="e.g. 100% Cotton"
                 className="input-editorial"
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Aesthetic Style</label>
+              <label className="archive-label">Style</label>
               <select {...register('style')} className="input-editorial cursor-pointer">
                 {STYLE_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Functional Utility</label>
+              <label className="archive-label">Notes / Tags</label>
               <input
-                {...register('function', { required: 'Function / Category required' })}
-                placeholder="LAYERING / TACTICAL"
+                {...register('function', { required: 'Tags are required' })}
+                placeholder="e.g. Oversized, Comfort"
                 className="input-editorial"
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Inventory Quantity</label>
+              <label className="archive-label">Quantity in Stock</label>
               <input
                 type="number"
                 {...register('quantity', { required: true, min: 0 })}
@@ -251,11 +254,11 @@ export function AddProduct() {
           </div>
 
           <div className="space-y-4 pt-6">
-            <label className="archive-label">Artifact Description</label>
+            <label className="archive-label">Full Description</label>
             <textarea
-              {...register('description', { required: 'Narrative description required' })}
+              {...register('description', { required: 'Description is required' })}
               rows={4}
-              placeholder="Vast documentation and details regarding the artifact historical significance..."
+              placeholder="Tell people more about this product..."
               className="input-editorial min-h-[120px] resize-none"
             />
           </div>
@@ -268,25 +271,25 @@ export function AddProduct() {
               className="h-4 w-4 bg-transparent border-border accent-accent"
             />
             <label htmlFor="prod-soldOut" className="archive-label cursor-pointer select-none">
-              Mark as Liquidated (Sold Out)
+              Mark as Sold Out
             </label>
           </div>
         </div>
 
-        {/* Temporal Data */}
+        {/* Drop Details */}
         <div className="bg-card border border-border p-8 space-y-12">
-          <h2 className="hero-title text-3xl">Temporal Context</h2>
+          <h2 className="hero-title text-3xl">Drop Information</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="space-y-2">
-              <label className="archive-label">Archive Release Designation</label>
+              <label className="archive-label">Drop Name</label>
               <input
                 {...register('dropName', { required: true })}
-                placeholder="ARCHIVE SEQUENCE 001"
+                placeholder="e.g. Winter Drop 2024"
                 className="input-editorial"
               />
             </div>
             <div className="space-y-2">
-              <label className="archive-label">Registry Date</label>
+              <label className="archive-label">Drop Date</label>
               <input
                 type="date"
                 {...register('dropDate', { required: true })}
@@ -308,14 +311,14 @@ export function AddProduct() {
             onClick={() => navigate('/products')}
             className="btn-outline px-12"
           >
-            VOID ENTRY
+            CANCEL
           </button>
           <button
             type="submit"
             disabled={submitting}
             className="btn-request px-12"
           >
-            {submitting ? <Loader2 className="h-5 w-5 animate-spin" /> : 'REGISTER ARTIFACT'}
+            {submitting ? <Loader2 className="h-5 w-5 animate-spin" /> : 'SAVE PRODUCT'}
           </button>
         </div>
       </form>

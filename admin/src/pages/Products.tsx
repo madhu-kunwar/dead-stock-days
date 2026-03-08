@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus, Edit, Trash2, Search, ImageIcon } from 'lucide-react'
-import { productApi, type Product } from '../lib/api'
+import { productApi } from '../lib/api'
 
 export function Products() {
   const queryClient = useQueryClient()
@@ -28,7 +28,7 @@ export function Products() {
 
   const filtered = products.filter(p =>
     p.name.toLowerCase().includes(search.toLowerCase()) ||
-    p.dropName.toLowerCase().includes(search.toLowerCase())
+    (p.dropName && p.dropName.toLowerCase().includes(search.toLowerCase()))
   )
 
   if (isLoading) {
@@ -37,7 +37,7 @@ export function Products() {
         <div className="container mx-auto py-12">
           <div className="text-center">
             <h1 className="hero-title text-4xl mb-4 text-muted-foreground animate-pulse">
-              Loading Archive...
+              Loading list...
             </h1>
           </div>
         </div>
@@ -51,10 +51,10 @@ export function Products() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-border gap-6 ">
           <div>
-            <span className="archive-label">Collection</span>
+            <span className="archive-label">Inventory List</span>
             <h1 className="hero-title text-5xl sm:text-6xl md:text-7xl">Products</h1>
             <p className="text-muted-foreground mt-4 max-w-md">
-              Managing {products.length} archived pieces from the Deadstock collection.
+              Currently managing {products.length} products in your store.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -62,7 +62,7 @@ export function Products() {
               <Search className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="SEARCH ARCHIVE"
+                placeholder="SEARCH FOR PRODUCT"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="input-editorial pl-6 w-full"
@@ -75,47 +75,47 @@ export function Products() {
           </div>
         </div>
 
-        {/* Stats Summary */}
+        {/* Info Highlights */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-muted/30 p-8 border border-border">
-            <span className="archive-label">Total Inventory</span>
+            <span className="archive-label">Total Items</span>
             <p className="hero-title text-4xl mt-2">{products.length}</p>
           </div>
           <div className="bg-muted/30 p-8 border border-border">
-            <span className="archive-label">Available Pieces</span>
+            <span className="archive-label">Available Stocks</span>
             <p className="hero-title text-4xl mt-2 text-accent">
               {products.filter(p => !p.soldOut).length}
             </p>
           </div>
           <div className="bg-muted/30 p-8 border border-border">
-            <span className="archive-label">Archived Out</span>
+            <span className="archive-label">Sold Out</span>
             <p className="hero-title text-4xl mt-2 text-destructive">
               {products.filter(p => p.soldOut).length}
             </p>
           </div>
         </div>
 
-        {/* Error State */}
+        {/* Error Notification */}
         {isError && (
           <div className="bg-destructive/10 border border-destructive/20 text-destructive p-6 mb-8 text-center uppercase tracking-widest text-sm">
-            Could not synchronize with the archive. Verify backend connectivity.
+            Failed to load products. Please check your internet connection.
           </div>
         )}
 
-        {/* Products Table */}
+        {/* Products List Table */}
         <div className="bg-card border border-border overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-muted border-b border-border text-left">
                 <tr>
-                  <th className="px-6 py-4 archive-label w-24">Visual</th>
-                  <th className="px-6 py-4 archive-label">Designation</th>
-                  <th className="px-6 py-4 archive-label">Valuation</th>
+                  <th className="px-6 py-4 archive-label w-24">Image</th>
+                  <th className="px-6 py-4 archive-label">Product Name</th>
+                  <th className="px-6 py-4 archive-label">Price</th>
                   <th className="px-6 py-4 archive-label hidden md:table-cell">Era</th>
                   <th className="px-6 py-4 archive-label hidden lg:table-cell">Category</th>
                   <th className="px-6 py-4 archive-label">Quantity</th>
-                  <th className="px-6 py-4 archive-label">Availability</th>
-                  <th className="px-6 py-4 archive-label text-right">Operations</th>
+                  <th className="px-6 py-4 archive-label">Status</th>
+                  <th className="px-6 py-4 archive-label text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -171,7 +171,7 @@ export function Products() {
           </div>
           {filtered.length === 0 && !isLoading && (
             <div className="py-24 text-center border-t border-border bg-muted/10">
-              <p className="archive-label">The archive yields no results.</p>
+              <p className="archive-label">No products found.</p>
             </div>
           )}
         </div>

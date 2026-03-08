@@ -1,7 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
-import { Link } from 'react-router-dom'
-import { Plus, Archive, ChevronRight, Activity, Database, Layers } from 'lucide-react'
-import { productApi, type Product } from '../lib/api'
+import { 
+  Package, 
+  ShoppingCart, 
+  TrendUp, 
+  Clock, 
+  ShieldCheck, 
+  Activity,
+  LogOut
+} from 'lucide-react'
+import { productApi } from '../lib/api'
 
 export function Dashboard() {
   const { data: products = [], isLoading } = useQuery({
@@ -9,123 +16,128 @@ export function Dashboard() {
     queryFn: productApi.getAll,
   })
 
-  const totalProducts = products.length
-  const inStock = products.filter((p: Product) => !p.soldOut).length
-  const soldOut = products.filter((p: Product) => p.soldOut).length
-  const totalValue = products.reduce((acc: number, p: Product) => acc + p.price * p.quantity, 0)
+  const availableProducts = products.filter(p => !p.soldOut).length
+  const soldOutProducts = products.filter(p => p.soldOut).length
+  const totalValue = products.reduce((sum, p) => sum + p.price, 0)
 
   const stats = [
-    { label: 'ARCHIVE ENTRIES', value: totalProducts, icon: Database },
-    { label: 'ACTIVE COLLECTION', value: inStock, icon: Layers },
-    { label: 'LIQUIDATED UNITS', value: soldOut, icon: Archive },
-    { label: 'VALUATION (RS.)', value: `Rs. ${totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`, icon: Activity },
+    {
+      label: 'Products in Store',
+      value: products.length,
+      icon: Package,
+      description: 'Total items in your list'
+    },
+    {
+      label: 'Currently Available',
+      value: availableProducts,
+      icon: Activity,
+      description: 'Ready for customers',
+      color: 'text-accent'
+    },
+    {
+      label: 'Total Value',
+      value: `Rs. ${totalValue.toLocaleString()}`,
+      icon: TrendUp,
+      description: 'Total worth of all products'
+    }
   ]
 
   return (
-    <div className="py-12 px-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-8 border-b border-border gap-6">
-        <div>
-          <span className="archive-label">Control Interface</span>
-          <h1 className="hero-title text-5xl sm:text-7xl md:text-8xl lg:text-9xl">DASHBOARD</h1>
-          <p className="text-muted-foreground mt-4 uppercase tracking-[0.2em] text-sm">
-            Operational overview of the Deadstock archival system.
-          </p>
-        </div>
-        <Link to="/products/new" className="btn-request w-full sm:w-auto">
-          <Plus className="w-5 h-5" />
-          REGISTRY ENTRY
-        </Link>
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border mb-16">
-        {stats.map(stat => {
-          const Icon = stat.icon
-          return (
-            <div key={stat.label} className="bg-background p-10 space-y-6 group hover:bg-muted/30 transition-colors">
-              <div className="flex items-center justify-between">
-                <Icon className="h-5 w-5 text-accent" />
-                <span className="text-[10px] tracking-[0.2em] text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity uppercase font-medium">REAL-TIME SYNC</span>
-              </div>
-              <div>
-                <p className="hero-title text-4xl lg:text-5xl">
-                   {isLoading ? '—' : stat.value}
-                </p>
-                <p className="archive-label mt-2">{stat.label}</p>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Recent Archive Updates */}
-        <div className="bg-card border border-border p-10">
-          <div className="flex items-center justify-between mb-10 pb-4 border-b border-border">
-            <h2 className="hero-title text-3xl">RECENT UPDATES</h2>
-            <Link to="/products" className="archive-label hover:text-foreground transition-colors flex items-center gap-1 group">
-              FULL ARCHIVE <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
-            </Link>
+    <main className="min-h-screen">
+      <div className="container mx-auto py-12 px-8">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-border gap-6">
+          <div>
+            <span className="archive-label">Admin Panel</span>
+            <h1 className="hero-title text-5xl sm:text-6xl md:text-7xl">Overview</h1>
+            <p className="text-muted-foreground mt-4 max-w-md">
+              Manage your products and track your stock details.
+            </p>
           </div>
-          {isLoading ? (
-            <div className="space-y-4">
-               {[1,2,3].map(i => <div key={i} className="h-16 bg-muted animate-pulse" />)}
+          <div className="flex flex-wrap items-center gap-6">
+            <div className="flex items-center gap-3 bg-muted/50 px-4 py-2 border border-border">
+              <ShieldCheck className="w-4 h-4 text-accent" />
+              <span className="text-[10px] tracking-widest uppercase">System Online</span>
             </div>
-          ) : (
-            <div className="space-y-6">
-              {products.slice(0, 5).map((p: Product) => (
-                <Link key={p.id} to={`/products/${p.id}/edit`} className="group flex items-center gap-6 p-4 hover:bg-muted/50 transition-colors border border-transparent hover:border-border">
-                  <div className="w-16 h-16 bg-muted overflow-hidden border border-border">
-                    {p.image ? (
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <Archive className="h-6 w-6 text-muted-foreground" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium uppercase tracking-widest">{p.name}</p>
-                    <p className="text-xs text-muted-foreground mt-1 uppercase tracking-tighter">ERA: {p.era} | Rs. {p.price}</p>
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
-                </Link>
-              ))}
-            </div>
-          )}
+            <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors uppercase text-[10px] tracking-widest group">
+              <LogOut className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
+              Logout
+            </button>
+          </div>
         </div>
 
-        {/* System Status */}
-        <div className="bg-card border border-border p-10 flex flex-col">
-          <h2 className="hero-title text-3xl mb-10 pb-4 border-b border-border text-left">ARCHIVE INTEGRITY</h2>
-          <div className="flex-1 flex flex-col justify-center items-center text-center space-y-8 py-10">
-             <div className="relative">
-                <div className="w-32 h-32 rounded-full border border-accent/20 flex items-center justify-center animate-pulse">
-                   <div className="w-24 h-24 rounded-full border border-accent/40 flex items-center justify-center animate-spin duration-10000">
-                      <div className="w-16 h-16 rounded-full bg-accent/10 flex items-center justify-center">
-                         <Activity className="h-6 w-6 text-accent" />
-                      </div>
-                   </div>
-                </div>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {stats.map((stat, i) => (
+            <div 
+              key={stat.label} 
+              className="bg-card border border-border p-8 hover:border-accent/40 transition-colors group animate-in fade-in slide-in-from-bottom-4 duration-500"
+              style={{ animationDelay: `${i * 100}ms` }}
+            >
+              <div className="flex items-start justify-between mb-6">
+                <stat.icon className="w-6 h-6 text-muted-foreground" />
+                <span className="text-[10px] tracking-tight text-muted-foreground/40 uppercase">Stat #{i+1}</span>
+              </div>
+              <p className="archive-label mb-2">{stat.label}</p>
+              <h3 className={`hero-title text-4xl mb-4 ${stat.color || ''}`}>{isLoading ? '...' : stat.value}</h3>
+              <p className="text-[10px] text-muted-foreground uppercase tracking-widest leading-relaxed">
+                {stat.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Quick Actions & Activity */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Recent Activity (Placeholders) */}
+          <div className="bg-muted/10 border border-border p-10 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-3 mb-8">
+                <Clock className="w-5 h-5 text-muted-foreground" />
+                <h2 className="hero-title text-2xl uppercase tracking-wider">Recent Changes</h2>
+              </div>
+              
+              <div className="space-y-8">
+                {[1, 2, 3].map((_, i) => (
+                  <div key={i} className="flex gap-6 pb-6 border-b border-border/50 last:border-0 opacity-60">
+                    <div className="w-1 bg-accent/20" />
+                    <div>
+                      <p className="text-[10px] tracking-widest uppercase text-muted-foreground mb-1">Stock Update • 2h ago</p>
+                      <h4 className="font-display tracking-wide uppercase text-sm">Product information saved successfully.</h4>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <button className="archive-label hover:text-foreground transition-colors mt-8 inline-flex items-center gap-2">
+              VIEW SYSTEM LOGS →
+            </button>
+          </div>
+
+          <div className="space-y-8">
+             <div className="bg-accent text-white p-10 flex flex-col justify-between min-h-[240px]">
+                <h2 className="hero-title text-3xl">Manage<br/>Collection</h2>
+                <button 
+                  onClick={() => window.location.href = '/products'}
+                  className="bg-white text-black px-6 py-3 font-display uppercase tracking-widest text-xs hover:bg-black hover:text-white transition-colors w-fit"
+                >
+                  View All Products
+                </button>
              </div>
-             <div>
-                <p className="hero-title text-2xl">Ledger Synchronized</p>
-                <p className="archive-label mt-2">All assets currently indexed</p>
-             </div>
-             <div className="grid grid-cols-2 w-full gap-px bg-border mt-auto pt-10">
-                <div className="bg-card p-6 text-left">
-                   <p className="archive-label">SECURE UPLOAD</p>
-                   <p className="text-xs mt-2 text-muted-foreground">CLOUDINARY V2 ACTIVE</p>
-                </div>
-                <div className="bg-card p-6 text-left">
-                   <p className="archive-label">API LATENCY</p>
-                   <p className="text-xs mt-2 text-muted-foreground">OPTIMIZED RESPONSE</p>
-                </div>
+             
+             <div className="bg-card border border-border p-10 flex flex-col justify-between min-h-[240px]">
+                <h2 className="hero-title text-3xl">Ready for<br/>New Drop?</h2>
+                <button 
+                  onClick={() => window.location.href = '/products/new'}
+                  className="btn-request w-fit"
+                >
+                  Add New Product
+                </button>
              </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   )
 }
