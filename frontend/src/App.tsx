@@ -18,11 +18,11 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ScrollToTop />
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
+        <Toaster />
+        <Sonner />
         <div className="flex flex-col min-h-screen">
           {/* Grain overlay for gritty effect */}
           <div className="grain-overlay" />
