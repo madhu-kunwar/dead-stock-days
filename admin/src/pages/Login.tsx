@@ -1,17 +1,25 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { LogIn, Lock, Mail } from 'lucide-react'
+import { LogIn, Lock, Mail, AlertCircle } from 'lucide-react'
+
+const ADMIN_EMAIL = 'deadstockdays@gmail.com'
+const ADMIN_PASSWORD = 'deadstockdays@123#'
 
 export function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
   const navigate = useNavigate()
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    // For now, allow any login
-    localStorage.setItem('admin_token', 'true')
-    navigate('/')
+    setError('')
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      localStorage.setItem('admin_token', 'true')
+      navigate('/')
+    } else {
+      setError('Invalid email or password. Please try again.')
+    }
   }
 
   return (
@@ -59,6 +67,13 @@ export function Login() {
                 />
               </div>
             </div>
+
+            {error && (
+              <div className="flex items-center gap-2 rounded-md border border-destructive/50 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                <AlertCircle className="h-4 w-4 shrink-0" />
+                <span>{error}</span>
+              </div>
+            )}
 
             <button
               type="submit"
